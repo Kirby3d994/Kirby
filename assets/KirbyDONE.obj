@@ -1,6 +1,6 @@
 # Blender 5.2.2 LTS
 # www.blender.org
-mtllib KirbyDONE.mtl
+mtllib kirby.mtl
 o KirbyBody.001
 v 0.012714 2.378517 0.000000
 v 0.012714 2.341564 -0.253396
