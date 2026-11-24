@@ -1,300 +1,631 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>KIRBY — 3D-презентация персонажа</title>
-<meta name="description" content="Сайт-презентация про Кирби: интерактивная 3D-модель, анимации и вся информация о розовом герое Nintendo." />
-<meta name="theme-color" content="#ff8fb8" />
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⭐</text></svg>" />
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet" />
-<!-- FontAwesome для иконок дисциплин -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
-<link rel="stylesheet" href="style.css" />
-<script type="importmap">
-{
-"imports": {
-"three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
-"three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
-}
-}
-</script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Интерактивная 3D-модель классической деревянной табуретки: конструкция, размеры, породы древесины и история. Учебный проект." />
+  <meta name="theme-color" content="#8b5a2b" />
+
+  <title>Табуретка — девять деталей, которые держат десятилетия</title>
+
+  <meta property="og:title" content="Табуретка — девять деталей, которые держат десятилетия" />
+  <meta property="og:description" content="Интерактивная 3D-модель, разбор конструкции с размерами, сравнение пород древесины и историческая хронология." />
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="ru_RU" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <link rel="stylesheet" href="./styles.css" />
+
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%AA%91%3C/text%3E%3C/svg%3E" />
 </head>
 <body>
-<div class="sky" aria-hidden="true">
-<span class="star s1">★</span><span class="star s2">★</span><span class="star s3">✦</span>
-<span class="star s4">★</span><span class="star s5">✦</span><span class="star s6">★</span>
-</div>
-<header class="header">
-<a href="#hero" class="logo">Kirby<span>★</span></a>
-<button class="burger" id="burger" aria-label="Открыть меню" aria-expanded="false" aria-controls="nav">
-<span></span><span></span><span></span>
-</button>
-<nav class="nav" id="nav">
-<a href="#about">О персонаже</a>
-<a href="#look">Внешний вид</a>
-<a href="#abilities">Способности</a>
-<a href="#timeline">Игры</a>
-<a href="#friends">Друзья и враги</a>
-<a href="#project">Проект</a>
-<a href="#facts">Факты</a>
-</nav>
-</header>
-<main>
-<!-- ===================== 1. HERO ===================== -->
-<section class="hero" id="hero">
-<h1 class="hero-title">
-<span>K</span><span>I</span><span>R</span><span>B</span><span>Y</span>
-</h1>
-<p class="hero-subtitle">Маленький розовый герой с огромным аппетитом и ещё большим сердцем</p>
-<div class="switcher" role="tablist" aria-label="Режим просмотра">
-<button class="switch-btn active" role="tab" aria-selected="true" data-mode="model">🎮 3D-модель</button>
-<button class="switch-btn" role="tab" aria-selected="false" data-mode="video1">🎬 Анимация</button>
-<button class="switch-btn" role="tab" aria-selected="false" data-mode="video2">🎥 Облёт камеры</button>
-</div>
-<div class="stage">
-<div class="panel active" id="panel-model" data-panel="model">
-<div id="viewer" class="viewer"></div>
-<div class="loader" id="loader">
-<div class="loader-kirby"></div>
-<p id="loader-text">Загружаем Кирби… 0%</p>
-</div>
-<div class="viewer-error" id="viewer-error" hidden>
-<p>😢 Не удалось загрузить 3D-модель.</p>
-<small>Проверьте, что файлы <code>assets/kirby.obj</code> и <code>assets/kirby.mtl</code> на месте, и откройте сайт через веб-сервер (не file://). Подробности — в консоли (F12).</small>
-</div>
-<div class="viewer-controls">
-<button class="mini-btn" id="btn-rotate" aria-pressed="true" title="Автовращение">⟳ Вращение</button>
-<button class="mini-btn" id="btn-reset" title="Сбросить камеру">⌂ Сброс</button>
-</div>
-<p class="hint">Крутите мышью или пальцем · колесо / щипок — масштаб</p>
-</div>
-<div class="panel" id="panel-video1" data-panel="video1" hidden>
-<video class="video" src="assets/kirby_loop.mp4" autoplay loop muted playsinline preload="metadata"></video>
-<p class="video-error" hidden>Видео <code>assets/kirby_loop.mp4</code> не найдено.</p>
-</div>
-<div class="panel" id="panel-video2" data-panel="video2" hidden>
-<video class="video" src="assets/kirby_camera.mp4" autoplay loop muted playsinline preload="metadata"></video>
-<p class="video-error" hidden>Видео <code>assets/kirby_camera.mp4</code> не найдено.</p>
-</div>
-</div>
-<div class="download-bar">
-<a href="assets/kirby.obj" download="kirby.obj" class="download-btn">
-📦 Скачать модель (.obj)
-</a>
-<a href="assets/kirby_textures.zip" download="kirby_textures.zip" class="download-btn download-btn-alt">
-🎨 Скачать текстуры (.zip)
-</a>
-</div>
-<a href="#about" class="scroll-down" aria-label="Листать вниз">▼</a>
-</section>
 
-<!-- ===================== 2. О ПЕРСОНАЖЕ ===================== -->
-<section class="section" id="about">
-<h2 class="section-title reveal">О персонаже</h2>
-<div class="about-grid">
-<div class="card reveal">
-<p class="lead">
-<strong>Кирби</strong> — жизнерадостный круглый герой с далёкой планеты <strong>Поп-Стар</strong>,
-живущий в мирной стране <strong>Дрим-Ленд</strong>. Он обожает вкусно поесть, крепко поспать
-и всегда готов броситься на помощь друзьям — даже если для этого придётся проглотить
-очередного злодея целиком.
-</p>
-<p>
-Кирби — один из самых узнаваемых персонажей Nintendo. За свою историю он побывал в
-десятках игр самых разных жанров: платформерах, гонках, головоломках, пинболе и даже
-в игре про вязаный мир из ниток.
-</p>
-</div>
-<ul class="info-list reveal">
-<li><span class="info-label">Создатель</span><span>Масахиро Сакурай</span></li>
-<li><span class="info-label">Студия</span><span>HAL Laboratory</span></li>
-<li><span class="info-label">Издатель</span><span>Nintendo</span></li>
-<li><span class="info-label">Год создания</span><span>1992</span></li>
-<li><span class="info-label">Первая игра</span><span>Kirby's Dream Land (Game Boy)</span></li>
-<li><span class="info-label">Дебют в Японии</span><span>27 апреля 1992</span></li>
-<li><span class="info-label">Родной мир</span><span>Планета Поп-Стар, Дрим-Ленд</span></li>
-</ul>
-</div>
-</section>
+  <!-- Шапка -->
+  <header class="site-header">
+    <div class="shell">
+      <a href="#top" class="logo">
+        <span class="logo-mark"><i class="fa-solid fa-chair" aria-hidden="true"></i></span>
+        <span class="logo-text">
+          <span class="logo-title">Табуретка</span>
+          <span class="logo-subtitle">Конструкция · Материалы · История</span>
+        </span>
+      </a>
+      <nav class="site-nav" aria-label="Основная навигация">
+        <ul>
+          <li><a href="#model">Модель</a></li>
+          <li><a href="#about">О проекте</a></li>
+          <li><a href="#construction">Конструкция</a></li>
+          <li><a href="#materials">Материалы</a></li>
+          <li><a href="#history">История</a></li>
+          <li><a href="#variants">Вариации</a></li>
+          <li><a href="#faq">Вопросы</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
 
-<!-- ===================== 3. ВНЕШНИЙ ВИД ===================== -->
-<section class="section section-alt" id="look">
-<h2 class="section-title reveal">Внешний вид</h2>
-<p class="section-intro reveal">
-Дизайн Кирби — образец гениальной простоты: его можно нарисовать одним кругом
-и парой штрихов. Именно поэтому его невозможно спутать ни с кем другим.
-</p>
-<div class="look-grid">
-<div class="look-card reveal"><div class="look-icon">🩷</div><h3>Розовый цвет</h3><p>Нежно-розовое тело — визитная карточка героя.</p></div>
-<div class="look-card reveal"><div class="look-icon">⚪</div><h3>Идеально круглый</h3><p>Тело-шарик, которое умеет надуваться, чтобы парить в воздухе.</p></div>
-<div class="look-card reveal"><div class="look-icon">✋</div><h3>Маленькие ручки</h3><p>Короткие округлые ручки без пальцев — но меч он держит уверенно.</p></div>
-<div class="look-card reveal"><div class="look-icon">👟</div><h3>Красные ботинки</h3><p>Крупные красные ножки-ботинки, на которых он бодро топает.</p></div>
-<div class="look-card reveal"><div class="look-icon">😊</div><h3>Румяные щёчки</h3><p>Розовый румянец под глазами делает его вечно смущённо-милым.</p></div>
-<div class="look-card reveal"><div class="look-icon">👀</div><h3>Овальные глаза</h3><p>Большие тёмно-синие глаза с бликами и крошечный улыбающийся рот.</p></div>
-</div>
-<p class="note reveal">📏 Согласно буклету к игре Kirby's Adventure, рост Кирби — всего около 20 см (8 дюймов).</p>
-</section>
+  <main id="top">
 
-<!-- ===================== 4. СПОСОБНОСТИ ===================== -->
-<section class="section" id="abilities">
-<h2 class="section-title reveal">Способности</h2>
-<div class="power-intro reveal">
-<div class="power-step"><span>1</span><p><strong>Вдох</strong><br />Кирби втягивает врага мощным потоком воздуха.</p></div>
-<div class="power-step"><span>2</span><p><strong>Глоток</strong><br />Проглатывает противника целиком…</p></div>
-<div class="power-step"><span>3</span><p><strong>Копирование</strong><br />…и получает его силу вместе с новой шапочкой!</p></div>
-</div>
-<p class="section-intro reveal">
-Механика копирования появилась во второй игре — <em>Kirby's Adventure</em> (1993) — и с тех пор стала главной фишкой серии.
-Ещё Кирби умеет надуваться и летать, а проглоченного врага можно выплюнуть в виде звезды-снаряда.
-</p>
-<div class="ability-grid">
-<article class="ability reveal"><div class="ability-icon">🔥</div><h3>Огонь</h3><p>Изрыгает пламя и превращается в огненный болид.</p><small>От: Хот Хэд</small></article>
-<article class="ability reveal"><div class="ability-icon">❄️</div><h3>Лёд</h3><p>Ледяное дыхание замораживает врагов в глыбы, которые можно пинать.</p><small>От: Чилли</small></article>
-<article class="ability reveal"><div class="ability-icon">⚔️</div><h3>Меч</h3><p>Зелёный колпак в стиле Линка и стремительные удары клинком.</p><small>От: Сорд Найт</small></article>
-<article class="ability reveal"><div class="ability-icon">✨</div><h3>Луч</h3><p>Энергетический хлыст из искр, который бьёт сквозь стены.</p><small>От: Ваддл Ду</small></article>
-<article class="ability reveal"><div class="ability-icon">🪨</div><h3>Камень</h3><p>Становится неуязвимой тяжёлой глыбой и давит врагов сверху.</p><small>От: Роки</small></article>
-<article class="ability reveal"><div class="ability-icon">🦔</div><h3>Игла</h3><p>Выпускает колючки во все стороны, как ёжик.</p><small>От: Тогезо</small></article>
-<article class="ability reveal"><div class="ability-icon">🛞</div><h3>Колесо</h3><p>Превращается в колесо и мчится, сбивая всех на пути.</p><small>От: Вили</small></article>
-<article class="ability reveal"><div class="ability-icon">🪞</div><h3>Зеркало</h3><p>Отражает атаки и создаёт зеркальные щиты и копии.</p><small>От: Симиррор</small></article>
-<article class="ability reveal"><div class="ability-icon">💤</div><h3>Сон</h3><p>Бесполезная, но очаровательная способность: Кирби просто засыпает.</p><small>От: Нодди</small></article>
-<article class="ability reveal"><div class="ability-icon">🥊</div><h3>Боец</h3><p>Повязка на лбу, серии ударов и фирменный «Хадокен»-стиль.</p><small>От: Наклз Джо</small></article>
-</div>
-</section>
+    <!-- Hero -->
+    <section class="relative overflow-hidden" aria-labelledby="hero-title">
+      <div class="shell hero-grid section-pad">
+        <div class="relative">
+          <p class="eyebrow">Справочный проект</p>
+          <h1 id="hero-title" class="hero-title">
+            Табуретка — <span class="accent">девять деталей</span>, которые держат десятилетия
+          </h1>
+          <p class="hero-lead">
+            Всё о самом простом предмете мебели: интерактивная 3D-модель, разбор конструкции с размерами, сравнение пород древесины и историческая хронология — для дизайнеров, мастеров и всех, кто интересуется мебелью.
+          </p>
+          <div class="hero-actions">
+            <a href="#model" class="btn-wood">
+              <i class="fa-solid fa-cube" aria-hidden="true"></i> Вращать 3D-модель
+            </a>
+            <a href="#construction" class="btn-outline">
+              <i class="fa-solid fa-ruler-combined" aria-hidden="true"></i> Размеры и детали
+            </a>
+          </div>
 
-<!-- ===================== 5. ТАЙМЛАЙН ИГР ===================== -->
-<section class="section section-alt" id="timeline">
-<h2 class="section-title reveal">История серии</h2>
-<ol class="timeline">
-<li class="reveal"><span class="year">1992</span><div class="tl-card"><h3>Kirby's Dream Land</h3><small>Game Boy</small><p>Дебют Кирби. Короткая и добрая игра для новичков — на монохромном экране никто ещё не знал, что герой розовый.</p></div></li>
-<li class="reveal"><span class="year">1993</span><div class="tl-card"><h3>Kirby's Adventure</h3><small>NES</small><p>Первая цветная игра и появление легендарного копирования способностей. Дебют Мета Рыцаря.</p></div></li>
-<li class="reveal"><span class="year">1996</span><div class="tl-card"><h3>Kirby Super Star</h3><small>SNES</small><p>Сборник из нескольких игр в одной, кооператив для двоих и культовый режим «Revenge of Meta Knight».</p></div></li>
-<li class="reveal"><span class="year">1999</span><div class="tl-card"><h3>Super Smash Bros.</h3><small>Nintendo 64</small><p>Кирби — среди восьми стартовых бойцов первого «Смэша», созданного тем же Масахиро Сакураем.</p></div></li>
-<li class="reveal"><span class="year">2000</span><div class="tl-card"><h3>Kirby 64: The Crystal Shards</h3><small>Nintendo 64</small><p>Первый 2.5D-платформер серии, где способности можно было комбинировать.</p></div></li>
-<li class="reveal"><span class="year">2010</span><div class="tl-card"><h3>Kirby's Epic Yarn</h3><small>Wii</small><p>Весь мир сшит из ниток и ткани, а Кирби превращается в пряжу.</p></div></li>
-<li class="reveal"><span class="year">2011</span><div class="tl-card"><h3>Kirby's Return to Dream Land</h3><small>Wii</small><p>Классическое приключение для четырёх игроков и первое появление Магалора.</p></div></li>
-<li class="reveal"><span class="year">2014</span><div class="tl-card"><h3>Kirby: Triple Deluxe</h3><small>Nintendo 3DS</small><p>Путешествие в небесное королевство Флоралия и битва с королевой Сектонией.</p></div></li>
-<li class="reveal"><span class="year">2018</span><div class="tl-card"><h3>Kirby Star Allies</h3><small>Nintendo Switch</small><p>Кирби бросает врагам сердечки и превращает их в союзников.</p></div></li>
-<li class="reveal"><span class="year">2022</span><div class="tl-card"><h3>Kirby and the Forgotten Land</h3><small>Nintendo Switch</small><p>Первая полноценная 3D-игра основной серии и самая продаваемая игра про Кирби. Новый трюк — «Набивка ртом»: Кирби проглатывает машину и сам становится ею.</p></div></li>
-</ol>
-</section>
+          <dl class="stats-grid">
+            <div class="stat-item">
+              <dt>45<span class="unit">см</span></dt>
+              <dd>Высота</dd>
+            </div>
+            <div class="stat-item">
+              <dt>38<span class="unit">см</span></dt>
+              <dd>Диаметр сиденья</dd>
+            </div>
+            <div class="stat-item">
+              <dt>9<span class="unit">дет.</span></dt>
+              <dd>В конструкции</dd>
+            </div>
+            <div class="stat-item">
+              <dt>3,5<span class="unit">кг</span></dt>
+              <dd>Масса</dd>
+            </div>
+          </dl>
+        </div>
 
-<!-- ===================== 6. ДРУЗЬЯ И ВРАГИ ===================== -->
-<section class="section" id="friends">
-<h2 class="section-title reveal">Друзья и враги</h2>
-<div class="char-grid">
-<article class="char reveal">
-<div class="char-avatar c-dedede">👑</div>
-<h3>Король Дидиди</h3>
-<span class="tag tag-both">Соперник и друг</span>
-<p>Самопровозглашённый король Дрим-Ленда с огромным молотом. Был главным злодеем в первой игре, но со временем стал скорее вредным приятелем, который не раз сражался бок о бок с Кирби.</p>
-</article>
-<article class="char reveal">
-<div class="char-avatar c-meta">🗡️</div>
-<h3>Мета Рыцарь</h3>
-<span class="tag tag-both">Благородный соперник</span>
-<p>Загадочный фехтовальщик в маске с крыльями, похожими на крылья летучей мыши. Владеет мечом Галаксия и живёт по кодексу чести — даёт Кирби меч, чтобы поединок был честным.</p>
-</article>
-<article class="char reveal">
-<div class="char-avatar c-bandana">🔵</div>
-<h3>Бандана Ваддл Ди</h3>
-<span class="tag tag-friend">Верный друг</span>
-<p>Особый Ваддл Ди в синей бандане, сражающийся копьём. Помощник короля Дидиди и лучший друг Кирби — играбельный персонаж во многих играх серии.</p>
-</article>
-<article class="char reveal">
-<div class="char-avatar c-sectonia">🐝</div>
-<h3>Королева Сектония</h3>
-<span class="tag tag-enemy">Злодейка</span>
-<p>Правительница небесного королевства Флоралия из игры Kirby: Triple Deluxe. Одержимая собственной красотой, она пыталась захватить Дрим-Ленд с помощью магического бобового стебля.</p>
-</article>
-</div>
-</section>
+        <div class="hero-figure-wrap">
+          <figure class="hero-figure">
+            <img src="./assets/taburetkaimage.webp" alt="Мастер в столярной мастерской с деревянной табуреткой" loading="lazy" />
+          </figure>
+          <div class="hero-note">
+            <p class="note-label">Классика</p>
+            <p class="note-text">Круглое сиденье, четыре ножки с наклоном 8 градусов и четыре проножки на высоте 14 см.</p>
+          </div>
+        </div>
+      </div>
+    </section>
 
-<!-- ===================== 7. ОБ УЧЕБНОМ ПРОЕКТЕ (НОВАЯ СЕКЦИЯ) ===================== -->
-<section class="section section-alt" id="project" aria-labelledby="project-title">
-<div class="wrap">
-<h2 class="section-title reveal" id="project-title">Об учебном проекте</h2>
-<p class="section-intro reveal">Этот сайт-презентация подготовлен как учебный проект по специальности 09.02.07 «Информационные системы и программирование».</p>
-<div class="project-card reveal">
-<div class="college-head">
-<img class="college-emblem" src="assets/vagpklogo.webp" alt="Эмблема Воркутинского арктического горно-политехнического колледжа" />
-<div>
-<p class="college-label">Учебное заведение</p>
-<h3 class="college-name">ГПОУ «Воркутинский арктический горно-политехнический колледж»</h3>
-<p class="college-city"><i class="fa-solid fa-location-dot" aria-hidden="true"></i>г. Воркута, Республика Коми</p>
-</div>
-</div>
-<dl class="author-list">
-<div>
-<dt>Автор проекта</dt>
-<dd>Заббаров Артур Робертович</dd>
-</div>
-<div>
-<dt>Специальность</dt>
-<dd>09.02.07 «Информационные системы и программирование»</dd>
-</div>
-<div>
-<dt>Квалификация</dt>
-<dd>Разработчик веб и мультимедийных приложений</dd>
-</div>
-<div>
-<dt>Форма обучения</dt>
-<dd>Очная, 3 года 10 месяцев</dd>
-</div>
-</dl>
-</div>
-<h3 class="subsection-title reveal">Изучаемые дисциплины</h3>
-<ul class="discipline-grid reveal">
-<li class="discipline-item"><i class="fa-solid fa-code" aria-hidden="true"></i><span>Основы алгоритмизации и программирования</span></li>
-<li class="discipline-item"><i class="fa-solid fa-database" aria-hidden="true"></i><span>Основы проектирования баз данных</span></li>
-<li class="discipline-item"><i class="fa-solid fa-laptop-code" aria-hidden="true"></i><span>Разработка кода информационных систем</span></li>
-<li class="discipline-item"><i class="fa-solid fa-bug" aria-hidden="true"></i><span>Тестирование информационных систем</span></li>
-<li class="discipline-item"><i class="fa-solid fa-diagram-project" aria-hidden="true"></i><span>Управление проектами</span></li>
-<li class="discipline-item"><i class="fa-solid fa-server" aria-hidden="true"></i><span>Внедрение и поддержка компьютерных систем</span></li>
-<li class="discipline-item"><i class="fa-solid fa-shield-halved" aria-hidden="true"></i><span>Обеспечение качества функционирования систем</span></li>
-<li class="discipline-item"><i class="fa-solid fa-globe" aria-hidden="true"></i><span>Проектирование и разработка веб-приложений</span></li>
-</ul>
-<h3 class="subsection-title reveal">Специальность в фотографиях</h3>
-<div class="photo-grid">
-<figure class="photo-card reveal">
-<div class="photo-frame">
-<img alt="Студент-программист пишет код на ноутбуке" src="https://files.cdn-files-a.com/admin/system_photos_stock/1200_6af2eac22d655.jpg?ratio=16:9&format=avif" loading="lazy" />
-</div>
-<figcaption>Практические занятия: разработка кода информационных систем и веб-приложений.</figcaption>
-</figure>
-<figure class="photo-card reveal">
-<div class="photo-frame">
-<img alt="Серверное оборудование и базы данных учебной лаборатории" src="https://files.cdn-files-a.com/admin/system_photos_stock/1200_695cd65498484.jpg?ratio=16:9&format=avif" loading="lazy" />
-</div>
-<figcaption>Учебная лаборатория: серверное оборудование, сети и проектирование баз данных.</figcaption>
-</figure>
-</div>
-</div>
-</section>
+    <!-- 3D-модель -->
+    <section id="model" class="model-section section-pad">
+      <div class="shell">
+        <div class="model-topbar">
+          <div>
+            <p class="eyebrow">Интерактивная модель</p>
+            <h2>Модель табуретки</h2>
+            <p class="lead">
+              Поверните модель мышью или пальцем — и вы сможете увидеть табуретку со всех сторон.
+            </p>
+          </div>
+          <div class="model-controls">
+            <button type="button" id="stoolRotate" class="stage-btn is-active" aria-pressed="true">
+              <i class="fa-solid fa-arrows-spin" aria-hidden="true"></i> Вращение
+            </button>
+            <button type="button" id="stoolWire" class="stage-btn" aria-pressed="false">
+              <i class="fa-solid fa-border-all" aria-hidden="true"></i> Каркас
+            </button>
+          </div>
+        </div>
 
-<!-- ===================== 8. ИНТЕРЕСНЫЕ ФАКТЫ ===================== -->
-<section class="section" id="facts">
-<h2 class="section-title reveal">Интересные факты</h2>
-<div class="facts">
-<div class="fact reveal"><span class="fact-num">01</span><p>Японская серия называется <strong>«Hoshi no Kābī»</strong> (星のカービィ) — «Кирби со звезды».</p></div>
-<div class="fact reveal"><span class="fact-num">02</span><p>Днём рождения Кирби считается <strong>27 апреля 1992 года</strong> — дата выхода Kirby's Dream Land в Японии. В 2022 году серия отпраздновала 30-летие.</p></div>
-<div class="fact reveal"><span class="fact-num">03</span><p>Кирби участвует в <strong>Super Smash Bros.</strong> с самой первой части (1999) — он входил в восьмёрку изначально доступных бойцов.</p></div>
-<div class="fact reveal"><span class="fact-num">04</span><p>Изначально Кирби был <strong>временным спрайтом-заглушкой</strong> под рабочим именем «Попопо», а игра называлась «Twinkle Popo». Простой шарик понравился команде так, что его оставили.</p></div>
-<div class="fact reveal"><span class="fact-num">05</span><p>На американской обложке Kirby's Dream Land герой был <strong>белым</strong>. Сигэру Миямото предлагал сделать его жёлтым, но Сакурай настоял на розовом.</p></div>
-<div class="fact reveal"><span class="fact-num">06</span><p>По распространённой версии, имя Кирби дано в честь <strong>Джона Кирби</strong> — адвоката, выигравшего для Nintendo суд против Universal из-за Donkey Kong.</p></div>
-<div class="fact reveal"><span class="fact-num">07</span><p>По мотивам игр сняли аниме <strong>«Hoshi no Kirby»</strong> (2001–2003) — 100 серий, в США оно шло как «Kirby: Right Back at Ya!».</p></div>
-</div>
-</section>
-</main>
+        <div class="model-layout">
+          <div class="stool-stage" id="stoolStage">
+            <canvas id="stoolCanvas" class="stool-canvas" tabindex="0" role="img" aria-label="Трёхмерная модель классической деревянной табуретки"></canvas>
+            <div id="stoolFallback" class="stool-fallback" hidden>
+              <p>Трёхмерная графика недоступна в этом браузере.</p>
+            </div>
+            <p class="stool-hint">Потяните, чтобы повернуть</p>
+          </div>
 
-<footer class="footer">
-<div class="footer-star">★</div>
-<p>Проект создан для учебного задания.</p>
-<p class="footer-author">Сделан: Заббаров Артур Робертович, группы ИСП-25</p>
-<p class="footer-copy">Kirby © Nintendo / HAL Laboratory.</p>
-</footer>
-<script type="module" src="script.js"></script>
+          <aside class="details-panel" aria-label="Детали конструкции">
+            <h3>Детали конструкции</h3>
+
+            <div class="filter-group" role="group" aria-label="Фильтр деталей">
+              <button type="button" class="filter-btn is-active" data-filter="all" aria-pressed="true">
+                <i class="fa-solid fa-cubes" aria-hidden="true"></i> Все детали
+              </button>
+              <button type="button" class="filter-btn" data-filter="seat" aria-pressed="false">
+                <i class="fa-regular fa-circle" aria-hidden="true"></i> Сиденье
+              </button>
+              <button type="button" class="filter-btn" data-filter="legs" aria-pressed="false">
+                <i class="fa-solid fa-grip-lines" aria-hidden="true"></i> Ножки
+              </button>
+              <button type="button" class="filter-btn" data-filter="rungs" aria-pressed="false">
+                <i class="fa-solid fa-link" aria-hidden="true"></i> Проножки
+              </button>
+            </div>
+
+            <p class="description">
+              Классическая табуретка — девять деталей: круглое сиденье, четыре ножки и четыре проножки. Каркас держится на клею и нагелях, без металлического крепежа.
+            </p>
+
+            <div class="specs-divider"></div>
+
+            <div class="specs-grid">
+              <div class="spec-item">
+                <div class="spec-label">Высота</div>
+                <div class="spec-value">450 мм</div>
+              </div>
+              <div class="spec-item">
+                <div class="spec-label">Сиденье</div>
+                <div class="spec-value">380 мм</div>
+              </div>
+              <div class="spec-item">
+                <div class="spec-label">Сечение ножки</div>
+                <div class="spec-value">34 → 26 мм</div>
+              </div>
+              <div class="spec-item">
+                <div class="spec-label">Наклон ножки</div>
+                <div class="spec-value">8°</div>
+              </div>
+            </div>
+
+            <p class="panel-footnote">
+              Модель построена по обмерам классической табуретки из массива — пропорции сохранены.
+            </p>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <!-- Об учебном проекте -->
+    <section id="about" class="about-section section-pad">
+      <div class="shell">
+        <div class="max-w-2xl">
+          <p class="eyebrow">Об учебном проекте</p>
+          <h2 class="mt-3 text-3xl sm:text-4xl">Автор, учебное заведение и специальность</h2>
+          <p class="mt-4 leading-relaxed" style="color: var(--text-muted);">
+            Данный сайт — учебный проект по специальности 09.02.07 «Информационные системы и программирование».
+            3D-модель табуретки, интерактивная сцена на Three.js и вёрстка выполнены самостоятельно.
+          </p>
+        </div>
+
+        <div class="about-grid">
+          <!-- Левая колонка: автор + колледж -->
+          <div class="about-card">
+            <h3>Автор проекта</h3>
+            <div class="author-block">
+              <div class="author-label">Выполнил</div>
+              <div class="author-name">Заббаров Артур Робертович</div>
+              <div class="author-spec">Специальность 09.02.07 «Информационные системы и программирование»</div>
+            </div>
+
+            <h3 style="margin-top: 1.75rem;">Учебное заведение</h3>
+            <div class="college-header">
+              <div class="college-logo" aria-label="Эмблема ГПОУ ВАГПК">
+                <img
+                  src="./assets/vagpklogo.webp"
+                  alt="Логотип ГПОУ «Воркутинский арктический горно-политехнический колледж»"
+                  loading="lazy"
+                />
+              </div>
+              <div>
+                <p class="college-title">ГПОУ «Воркутинский арктический горно-политехнический колледж»</p>
+                <p class="college-subtitle">г. Воркута, Республика Коми</p>
+              </div>
+            </div>
+
+            <div class="about-meta">
+              <div class="meta-row">
+                <div class="meta-label">Тип</div>
+                <div class="meta-value">Государственное профессиональное образовательное учреждение</div>
+              </div>
+              <div class="meta-row">
+                <div class="meta-label">Адрес</div>
+                <div class="meta-value">169900, г. Воркута, ул. Яновского, д. 5</div>
+              </div>
+              <div class="meta-row">
+                <div class="meta-label">Телефон</div>
+                <div class="meta-value">+7 (82151) 3-55-06</div>
+              </div>
+              <div class="meta-row">
+                <div class="meta-label">Основан</div>
+                <div class="meta-value">1943 год (80+ лет истории)</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Правая колонка: дисциплины -->
+          <div class="about-card">
+            <h3>Изучаемые дисциплины</h3>
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem;">
+              Ключевые дисциплины специальности 09.02.07 «Информационные системы и программирование».
+            </p>
+
+            <ul class="disciplines-list">
+              <li><span class="code">01</span> Основы алгоритмизации и программирования</li>
+              <li><span class="code">02</span> Основы проектирования баз данных</li>
+              <li><span class="code">03</span> Разработка кода информационных систем</li>
+              <li><span class="code">04</span> Тестирование информационных систем</li>
+              <li><span class="code">05</span> Управление проектами</li>
+              <li><span class="code">06</span> Внедрение и поддержка компьютерных систем</li>
+              <li><span class="code">07</span> Обеспечение качества функционирования систем</li>
+              <li><span class="code">08</span> Проектирование и разработка веб-приложений</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Фотографии и видео -->
+        <div class="about-card" style="margin-top: 2rem;">
+          <h3>Фотографии по специальности</h3>
+          <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem;">
+            Учебный процесс и работа студентов на специальности 09.02.07.
+          </p>
+
+          <div class="about-photos">
+            <figure class="about-photo">
+              <img src="./assets/klassika.webp" alt="Занятие по программированию" loading="lazy" />
+              <figcaption>
+                <strong>Занятие по программированию.</strong>
+                Студенты разрабатывают программные модули в рамках ПМ.01 «Разработка программных модулей».
+              </figcaption>
+            </figure>
+
+            <figure class="about-photo">
+              <img src="./assets/kvadrat.jpg" alt="Компьютерный класс" loading="lazy" />
+              <figcaption>
+                <strong>Компьютерный класс.</strong>
+                Лабораторная работа по дисциплине ОП.01 «Операционные системы и среды».
+              </figcaption>
+            </figure>
+          </div>
+
+          <!-- Видео анимации 3D-модели -->
+          <div class="about-video">
+            <video
+              src="./assets/taburetkavideo.mp4"
+              controls
+              autoplay
+              loop
+              muted
+              playsinline
+              preload="metadata"
+              aria-label="Анимация 3D-модели табуретки"
+            >
+              Ваш браузер не поддерживает воспроизведение видео.
+            </video>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Конструкция -->
+    <section id="construction" class="section-pad">
+      <div class="shell">
+        <div class="max-w-2xl">
+          <p class="eyebrow">Конструкция</p>
+          <h2 class="mt-3 text-3xl sm:text-4xl">Девять деталей и три узла</h2>
+          <p class="mt-4 leading-relaxed" style="color: var(--text-muted);">
+            Классическая табуретка собирается без единого металлического крепежа: сиденье, четыре ножки и четыре проножки держатся на клею и нагелях.
+          </p>
+        </div>
+
+        <div class="construction-grid">
+          <div class="spec-table-wrap">
+            <table class="spec-table">
+              <caption class="sr-only">Детали классической табуретки с размерами</caption>
+              <thead>
+                <tr>
+                  <th scope="col">Деталь</th>
+                  <th scope="col">Размер</th>
+                  <th scope="col">Кол-во</th>
+                  <th scope="col">Заготовка</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>Сиденье</td><td>380 × 40 мм</td><td>1</td><td style="color: var(--text-muted)">Щит из массива</td></tr>
+                <tr><td>Ножка</td><td>34 → 26 × 410 мм</td><td>4</td><td style="color: var(--text-muted)">Брусок</td></tr>
+                <tr><td>Проножка</td><td>18 × 300 мм</td><td>4</td><td style="color: var(--text-muted)">Круглый брусок</td></tr>
+                <tr><td>Нагель</td><td>8 × 60 мм</td><td>8</td><td style="color: var(--text-muted)">Берёза, бук</td></tr>
+                <tr><td>Клей</td><td>ПВА D3</td><td>—</td><td style="color: var(--text-muted)">Водостойкий</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <figure class="construction-figure">
+            <img src="./assets/second.jpg" alt="Мастер собирает узел ножка-сиденье деревянной табуретки" loading="lazy" />
+            <figcaption>Узел «ножка — сиденье»: гнездо глубиной 25 мм под углом 8 градусов, клей и нагель.</figcaption>
+          </figure>
+        </div>
+
+        <div class="steps-grid">
+          <article class="step-card">
+            <span class="step-num">1</span>
+            <h3>Разметка и раскрой</h3>
+            <p>Сиденье выпиливают из щита, ножки — из бруска 40 × 40 мм с припуском на токарную обработку.</p>
+          </article>
+          <article class="step-card">
+            <span class="step-num">2</span>
+            <h3>Гнёзда под 8 градусов</h3>
+            <p>В сиденье сверлят четыре гнезда глубиной 25 мм. Угол наклона задаёт кондуктор или наклонный столик сверлильного станка.</p>
+          </article>
+          <article class="step-card">
+            <span class="step-num">3</span>
+            <h3>Сборка насухо</h3>
+            <p>Каркас собирают без клея и проверяют диагонали: расхождение больше 2 мм — табурет будет шататься.</p>
+          </article>
+          <article class="step-card">
+            <span class="step-num">4</span>
+            <h3>Склейка и нагели</h3>
+            <p>Клей наносят на гнездо и шип, после схватывания ставят нагели, лишнее срезают, изделие шлифуют и покрывают маслом.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Материалы -->
+    <section id="materials" class="section-pad" style="background: var(--surface-color);">
+      <div class="shell">
+        <div class="materials-header">
+          <div class="max-w-2xl">
+            <p class="eyebrow">Материалы</p>
+            <h2 class="mt-3 text-3xl sm:text-4xl">Четыре породы, которые держат нагрузку</h2>
+            <p class="mt-4 leading-relaxed" style="color: var(--text-muted);">
+              Табурет работает на сжатие и на изгиб одновременно: ножки — на сжатие, проножки — на изгиб. Поэтому важна не только твёрдость, но и упругость.
+            </p>
+          </div>
+          <p class="materials-label">Твёрдость по Бринеллю · плотность</p>
+        </div>
+
+        <div class="woods-grid">
+          <article class="wood-card">
+            <span class="wood-swatch" style="background: #9c6b3c;" aria-hidden="true"></span>
+            <h3>Дуб</h3>
+            <p class="wood-density">700 кг/м³</p>
+            <div class="wood-hardness">
+              <div class="wood-hardness-header"><span>Твёрдость</span><span>3,7</span></div>
+              <div class="meter"><span style="width: 100%;"></span></div>
+            </div>
+            <p class="description">Максимальный ресурс: табурет переживёт несколько ремонтов. Тяжёлый и дорогой материал, требует острого инструмента.</p>
+          </article>
+          <article class="wood-card">
+            <span class="wood-swatch" style="background: #c39361;" aria-hidden="true"></span>
+            <h3>Ясень</h3>
+            <p class="wood-density">690 кг/м³</p>
+            <div class="wood-hardness">
+              <div class="wood-hardness-header"><span>Твёрдость</span><span>3,6</span></div>
+              <div class="meter"><span style="width: 97%;"></span></div>
+            </div>
+            <p class="description">Прочнее дуба на изгиб, светлее по тону и хорошо гнётся после пропарки. Любимая порода для гнутой мебели.</p>
+          </article>
+          <article class="wood-card">
+            <span class="wood-swatch" style="background: #d8bd94;" aria-hidden="true"></span>
+            <h3>Берёза</h3>
+            <p class="wood-density">640 кг/м³</p>
+            <div class="wood-hardness">
+              <div class="wood-hardness-header"><span>Твёрдость</span><span>2,7</span></div>
+              <div class="meter"><span style="width: 73%;"></span></div>
+            </div>
+            <p class="description">Компромисс цены и прочности. Легко шлифуется и точится, но боится сырости — нужна надёжная защита маслом.</p>
+          </article>
+          <article class="wood-card">
+            <span class="wood-swatch" style="background: #e2cba6;" aria-hidden="true"></span>
+            <h3>Сосна</h3>
+            <p class="wood-density">500 кг/м³</p>
+            <div class="wood-hardness">
+              <div class="wood-hardness-header"><span>Твёрдость</span><span>1,9</span></div>
+              <div class="meter"><span style="width: 51%;"></span></div>
+            </div>
+            <p class="description">Самый лёгкий и доступный вариант. Мягкая древесина требует более массивных ножек и аккуратной затяжки соединений.</p>
+          </article>
+        </div>
+
+        <div class="tip-card">
+          <span class="tip-icon"><i class="fa-solid fa-lightbulb" aria-hidden="true"></i></span>
+          <div class="tip-content">
+            <h3>Что выбрать для первой табуретки</h3>
+            <p>Начните с сосны: она дешевле и мягче, ошибки разметки не так обидно. Когда соединения начнут получаться — переходите на дуб или ясень. Фанера и плитные материалы для ножек не годятся: слоистый материал плохо держит нагель на изгибе.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- История -->
+    <section id="history" class="section-pad">
+      <div class="shell">
+        <div class="max-w-2xl">
+          <p class="eyebrow">История</p>
+          <h2 class="mt-3 text-3xl sm:text-4xl">От египетского трона до гнутой берёзы</h2>
+          <p class="mt-4 leading-relaxed" style="color: var(--text-muted);">
+            Табурет старше стула: сначала это была привилегия, потом — рабочий инструмент, а в XX веке — полигон для промышленного дизайна.
+          </p>
+        </div>
+
+        <ol class="timeline-list">
+          <li class="timeline-item">
+            <p class="era">III тыс. до н. э.</p>
+            <h3>Египет: трон для избранных</h3>
+            <p>Самые ранние табуреты находят в египетских гробницах. Четырёхногие, с плетёным сиденьем, они были привилегией знати и жрецов.</p>
+          </li>
+          <li class="timeline-item">
+            <p class="era">V–IV вв. до н. э.</p>
+            <h3>Греческий дифрос</h3>
+            <p>В Греции появляется дифрос — лёгкий табурет с точёными ножками. Складная версия стала походным предметом, который носили за собой.</p>
+          </li>
+          <li class="timeline-item">
+            <p class="era">Средние века</p>
+            <h3>Доска на трёх ножках</h3>
+            <p>В Европе табурет делали из цельного куска дерева: толстая доска и три вставные ножки. Стул как тип мебели ещё редкость.</p>
+          </li>
+          <li class="timeline-item">
+            <p class="era">XVII–XVIII вв.</p>
+            <h3>Столярная геометрия</h3>
+            <p>Появляются проножки, точёные ножки и резные сиденья. Табурет становится учебной работой подмастерья — проверкой точности соединений.</p>
+          </li>
+          <li class="timeline-item">
+            <p class="era">1930-е</p>
+            <h3>Алвар Аалто и гнутая берёза</h3>
+            <p>Финский архитектор придумывает L-образную ножку из гнутой берёзы. Каркас табурета превращается в промышленное изделие без шипов.</p>
+          </li>
+          <li class="timeline-item">
+            <p class="era">1950-е</p>
+            <h3>Три ножки и фанера</h3>
+            <p>Арне Якобсен делает ставку на фанеру и три опоры. Массовое производство окончательно превращает табурет в предмет повседневного дизайна.</p>
+          </li>
+          <li class="timeline-item is-now">
+            <p class="era">Сегодня</p>
+            <h3>Ремесло и станок с ЧПУ</h3>
+            <p>Табурет живёт в двух мирах: ручная работа по традиционной технологии и раскрой на станке по цифровой модели.</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- Вариации -->
+    <section id="variants" class="section-pad" style="background: var(--surface-color);">
+      <div class="shell">
+        <div class="max-w-2xl">
+          <p class="eyebrow">Вариации</p>
+          <h2 class="mt-3 text-3xl sm:text-4xl">Одна функция, четыре решения</h2>
+          <p class="mt-4 leading-relaxed" style="color: var(--text-muted);">
+            Меняются форма сиденья, схема каркаса и материалы обивки — принцип остаётся тем же: три-четыре опоры и жёсткая связка между ними.
+          </p>
+        </div>
+
+        <div class="variants-grid">
+          <article class="variant-card">
+            <img class="variant-card-img" src="./assets/klassika.webp" alt="Круглые классические деревянные табуретки у барной стойки" loading="lazy" />
+            <div class="variant-card-body">
+              <h3>Круглый классический</h3>
+              <p>Круглое сиденье, наклонные ножки, четыре проножки. Самый устойчивый вариант для кухни и мастерской.</p>
+            </div>
+          </article>
+          <article class="variant-card">
+            <img class="variant-card-img" src="./assets/kvadrat.jpg" alt="Квадратный деревянный табурет в минималистичном интерьере" loading="lazy" />
+            <div class="variant-card-body">
+              <h3>Квадратный</h3>
+              <p>Прямые ножки и царги вместо проножек. Проще в разметке, удобно ставить вплотную к стене.</p>
+            </div>
+          </article>
+          <article class="variant-card">
+            <img class="variant-card-img" src="./assets/slakdnoy.webp" alt="Складной деревянный табурет" loading="lazy" />
+            <div class="variant-card-body">
+              <h3>Складной</h3>
+              <p>Перекрещенные ножки на металлической оси. Складывается в толщину нескольких сантиметров.</p>
+            </div>
+          </article>
+          <article class="variant-card">
+            <img class="variant-card-img" src="./assets/myagok.webp" alt="Табурет с мягким сиденьем и тканевой обивкой" loading="lazy" />
+            <div class="variant-card-body">
+              <h3>С мягким сиденьем</h3>
+              <p>Фанера, поролон и обивка тканью. Для рабочих мест, где сидят подолгу и нужна мягкая посадка.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq" class="section-pad">
+      <div class="shell">
+        <div class="faq-grid">
+          <div class="faq-left">
+            <p class="eyebrow">Вопросы</p>
+            <h2>Частые вопросы о конструкции</h2>
+            <p>Короткие ответы на то, что чаще всего спрашивают мастера и дизайнеры при первой сборке.</p>
+            <a href="#construction" class="btn-outline">Перейти к конструкции</a>
+          </div>
+
+          <div class="faq-list">
+            <details class="faq-item">
+              <summary>Зачем нужны проножки, если ножки и так держатся?<i class="fa-solid fa-chevron-down faq-icon" aria-hidden="true"></i></summary>
+              <div class="faq-body">Проножки фиксируют геометрию каркаса: без них ножки постепенно расходятся под нагрузкой и табурет начинает шататься. Плюс это удобная подножка.</div>
+            </details>
+            <details class="faq-item">
+              <summary>Можно ли собрать табурет на саморезах?<i class="fa-solid fa-chevron-down faq-icon" aria-hidden="true"></i></summary>
+              <div class="faq-body">Можно, но соединение быстро разболтается — саморез работает на выдёргивание. Традиционное решение: гнездо, клей и нагель, который стягивает узел навсегда.</div>
+            </details>
+            <details class="faq-item">
+              <summary>Какая древесина лучше для первой работы?<i class="fa-solid fa-chevron-down faq-icon" aria-hidden="true"></i></summary>
+              <div class="faq-body">Сосна: мягкая, дешёвая и прощает ошибки разметки. Дуб и ясень стоит брать, когда соединения уже получаются точно с первого раза.</div>
+            </details>
+            <details class="faq-item">
+              <summary>Насколько толстым должно быть сиденье?<i class="fa-solid fa-chevron-down faq-icon" aria-hidden="true"></i></summary>
+              <div class="faq-body">Для диаметра 380 мм достаточно 30–40 мм. Тоньше — появится прогиб под весом, толще — лишняя масса и расход материала.</div>
+            </details>
+            <details class="faq-item">
+              <summary>Как рассчитать высоту табурета?<i class="fa-solid fa-chevron-down faq-icon" aria-hidden="true"></i></summary>
+              <div class="faq-body">От высоты столешницы отнимите 30 см: для обеденного стола 75 см получается 45 см. Для барной стойки 105–110 см — табурет высотой 65–75 см.</div>
+            </details>
+            <details class="faq-item">
+              <summary>Чем покрыть готовое изделие?<i class="fa-solid fa-chevron-down faq-icon" aria-hidden="true"></i></summary>
+              <div class="faq-body">Масло с воском подчёркивает текстуру и легко обновляется без снятия старого слоя. Лак прочнее, но при ремонте требует полной перешлифовки.</div>
+            </details>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Подвал -->
+  <footer class="site-footer">
+    <div class="shell">
+      <div class="footer-main">
+        <div class="footer-brand">
+          <a href="#top" class="logo">
+            <span class="logo-mark"><i class="fa-solid fa-chair" aria-hidden="true"></i></span>
+            <span class="logo-text">
+              <span class="logo-title">Табуретка</span>
+            </span>
+          </a>
+          <p class="brand-desc">Учебный проект по специальности 09.02.07. Заббаров Артур Робертович, ГПОУ «ВАГПК», г. Воркута.</p>
+        </div>
+
+        <div class="footer-col">
+          <h4>Разделы</h4>
+          <ul>
+            <li><a href="#model">3D-модель</a></li>
+            <li><a href="#about">Об учебном проекте</a></li>
+            <li><a href="#construction">Конструкция и размеры</a></li>
+            <li><a href="#materials">Породы дерева</a></li>
+            <li><a href="#history">История предмета</a></li>
+            <li><a href="#variants">Вариации</a></li>
+            <li><a href="#faq">Частые вопросы</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>О проекте</h4>
+          <p class="about-text">
+            Материалы рассчитаны на дизайнеров, мастеров и всех, кто интересуется мебелью.
+            Размеры приведены для классической табуретки высотой 45 см.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div class="shell">
+        <p>© 2026 Заббаров А. Р. · ГПОУ «ВАГПК», г. Воркута</p>
+        <p>Специальность 09.02.07</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Three.js -->
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+      "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+    }
+  }
+  </script>
+  <script type="module" src="./taburetka.js"></script>
+
 </body>
 </html>
