@@ -1133,12 +1133,14 @@ code {
   gap: 14px;
   margin: 0;
   padding: 0;
+  align-items: stretch;
 }
 
 .discipline-item {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   gap: 10px;
   background: var(--white);
   padding: 22px 14px;
@@ -1149,6 +1151,7 @@ code {
   font-size: 0.92rem;
   color: var(--text);
   transition: transform 0.3s, box-shadow 0.3s;
+  min-height: 180px;
 }
 
 .discipline-item:hover {
