@@ -1258,6 +1258,7 @@ code {
   box-shadow: var(--shadow-strong);
 }
 
+/* Обновлённый стиль иконки в карточках назначения */
 .purpose-icon {
   width: 64px;
   height: 64px;
@@ -1266,8 +1267,13 @@ code {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 2rem;
+  font-size: 1.6rem;
   background: var(--pink-pale);
+  color: var(--pink-dark);
+}
+
+.purpose-icon i {
+  font-size: 1.6rem;
 }
 
 .purpose-card h3 {
