@@ -270,72 +270,95 @@
       </div>
     </section>
 
-    <!-- ===================== 8. НАЗНАЧЕНИЕ 3D-МОДЕЛИ ===================== -->
-    <section class="section" id="model-purpose" aria-labelledby="model-purpose-title">
-      <h2 class="section-title reveal" id="model-purpose-title">Назначение 3D-модели</h2>
-      <p class="section-intro reveal">
-        Разработанная интерактивная 3D-модель Кирби — ключевой элемент сайта-презентации и демонстрация практических навыков работы с трёхмерной графикой в вебе.
-      </p>
+<!-- ===================== 8. НАЗНАЧЕНИЕ 3D-МОДЕЛИ ===================== -->
+<section class="section" id="model-purpose" aria-labelledby="model-purpose-title">
+  <h2 class="section-title reveal" id="model-purpose-title">Применение 3D-модели</h2>
+  <p class="section-intro reveal">
+    Разработанная 3D-модель Кирби в формате OBJ/MTL универсальна и может быть использована в самых разных сферах — от 3D-печати до игровых движков.
+  </p>
 
-      <div class="purpose-grid">
-        <article class="purpose-card reveal">
-          <div class="purpose-icon">🎓</div>
-          <h3>Учебный проект</h3>
-          <p>Модель создана в рамках выполнения курсовой работы по специальности 09.02.07 «Информационные системы и программирование» как практическое применение знаний по веб-разработке и компьютерной графике.</p>
-        </article>
+  <div class="purpose-grid">
+    <article class="purpose-card reveal">
+      <div class="purpose-icon"><i class="fa-solid fa-print" aria-hidden="true"></i></div>
+      <h3>3D-печать</h3>
+      <p>Модель можно экспортировать в STL и распечатать на 3D-принтере — получится фигурка Кирби для коллекции или в подарок.</p>
+    </article>
 
-        <article class="purpose-card reveal">
-          <div class="purpose-icon">🌐</div>
-          <h3>Интерактивная презентация</h3>
-          <p>Модель встроена в hero-секцию сайта с помощью Three.js и позволяет пользователю вращать, масштабировать и рассматривать персонажа со всех сторон прямо в браузере.</p>
-        </article>
+    <article class="purpose-card reveal">
+      <div class="purpose-icon"><i class="fa-solid fa-gamepad" aria-hidden="true"></i></div>
+      <h3>Игровые движки</h3>
+      <p>Импорт в Unity, Unreal Engine или Godot для использования в собственных играх — как персонаж, NPC или декорация уровня.</p>
+    </article>
 
-        <article class="purpose-card reveal">
-          <div class="purpose-icon">💼</div>
-          <h3>Портфолио разработчика</h3>
-          <p>Работа демонстрирует навыки моделирования, текстурирования, экспорта в форматы OBJ/MTL и интеграции 3D-графики в веб-приложения — востребованные компетенции в индустрии.</p>
-        </article>
+    <article class="purpose-card reveal">
+      <div class="purpose-icon"><i class="fa-solid fa-vr-cardboard" aria-hidden="true"></i></div>
+      <h3>AR и VR-проекты</h3>
+      <p>Размещение модели в дополненной реальности через WebXR или в VR-приложениях — Кирби «оживает» в реальном мире.</p>
+    </article>
 
-        <article class="purpose-card reveal">
-          <div class="purpose-icon">🎮</div>
-          <h3>Демонстрация персонажа</h3>
-          <p>Модель наглядно показывает дизайн Кирби — одного из самых узнаваемых игровых персонажей, помогая посетителям сайта познакомиться с героем в объёме, а не только по 2D-арту.</p>
-        </article>
-      </div>
+    <article class="purpose-card reveal">
+      <div class="purpose-icon"><i class="fa-solid fa-film" aria-hidden="true"></i></div>
+      <h3>Анимация и рендер</h3>
+      <p>Основа для создания анимаций в Blender, Maya или Cinema 4D — можно сделать собственный мультфильм или кинематографичный ролик.</p>
+    </article>
 
-      <h3 class="subsection-title reveal">Технические характеристики</h3>
-      <div class="specs-grid reveal">
-        <div class="spec-item">
-          <span class="spec-label">Формат</span>
-          <span class="spec-value">OBJ + MTL</span>
-        </div>
-        <div class="spec-item">
-          <span class="spec-label">Текстуры</span>
-          <span class="spec-value">PBR, PNG</span>
-        </div>
-        <div class="spec-item">
-          <span class="spec-label">Рендер</span>
-          <span class="spec-value">Three.js r160</span>
-        </div>
-        <div class="spec-item">
-          <span class="spec-label">Освещение</span>
-          <span class="spec-value">Hemisphere + 2× Directional</span>
-        </div>
-        <div class="spec-item">
-          <span class="spec-label">Управление</span>
-          <span class="spec-value">OrbitControls</span>
-        </div>
-        <div class="spec-item">
-          <span class="spec-label">Анимация</span>
-          <span class="spec-value">Парение + автовращение</span>
-        </div>
-      </div>
+    <article class="purpose-card reveal">
+      <div class="purpose-icon"><i class="fa-solid fa-globe" aria-hidden="true"></i></div>
+      <h3>Веб-приложения</h3>
+      <p>Встраивание в сайты через Three.js, как в этом проекте — интерактивный просмотр прямо в браузере без установки программ.</p>
+    </article>
 
-      <div class="purpose-note reveal">
-        <p>💡 <strong>Как это работает:</strong> модель загружается через <code>MTLLoader</code> и <code>OBJLoader</code>, материалы связываются с геометрией, камера автоматически подстраивается под размер объекта, а <code>IntersectionObserver</code> ставит рендер на паузу, когда блок уходит из области видимости — это экономит батарею на мобильных устройствах.</p>
-      </div>
-    </section>
+    <article class="purpose-card reveal">
+      <div class="purpose-icon"><i class="fa-solid fa-graduation-cap" aria-hidden="true"></i></div>
+      <h3>Обучение 3D</h3>
+      <p>Учебный материал для изучения структуры полигональных сеток, UV-развёртки, текстурирования и работы с форматами OBJ/MTL.</p>
+    </article>
 
+    <article class="purpose-card reveal">
+      <div class="purpose-icon"><i class="fa-solid fa-shirt" aria-hidden="true"></i></div>
+      <h3>Мерч и сувениры</h3>
+      <p>Использование для создания мерча: брелоков, значков, наклеек, футболок — модель служит основой для дизайна продукции.</p>
+    </article>
+
+    <article class="purpose-card reveal">
+      <div class="purpose-icon"><i class="fa-solid fa-palette" aria-hidden="true"></i></div>
+      <h3>Концепт-арт</h3>
+      <p>Быстрая визуализация идей: рендеры модели под разными углами и с разным освещением для презентаций и портфолио художника.</p>
+    </article>
+  </div>
+
+  <h3 class="subsection-title reveal">Совместимые форматы и программы</h3>
+  <div class="specs-grid reveal">
+    <div class="spec-item">
+      <span class="spec-label">Формат модели</span>
+      <span class="spec-value">OBJ + MTL</span>
+    </div>
+    <div class="spec-item">
+      <span class="spec-label">Текстуры</span>
+      <span class="spec-value">PNG / JPG</span>
+    </div>
+    <div class="spec-item">
+      <span class="spec-label">3D-редакторы</span>
+      <span class="spec-value">Blender, Maya, 3ds Max</span>
+    </div>
+    <div class="spec-item">
+      <span class="spec-label">Игровые движки</span>
+      <span class="spec-value">Unity, Unreal, Godot</span>
+    </div>
+    <div class="spec-item">
+      <span class="spec-label">Веб-рендер</span>
+      <span class="spec-value">Three.js, Babylon.js</span>
+    </div>
+    <div class="spec-item">
+      <span class="spec-label">3D-печать</span>
+      <span class="spec-value">Cura, PrusaSlicer</span>
+    </div>
+  </div>
+
+  <div class="purpose-note reveal">
+    <p>💡 <strong>Совет:</strong> перед использованием в игровом движке или для 3D-печати модель рекомендуется оптимизировать — уменьшить количество полигонов (retopology) и запечь текстуры в один атлас. Это ускорит рендер и снизит размер файла.</p>
+  </div>
+</section>
     <!-- ===================== 9. ИНТЕРЕСНЫЕ ФАКТЫ ===================== -->
     <section class="section section-alt" id="facts">
       <h2 class="section-title reveal">Интересные факты</h2>
