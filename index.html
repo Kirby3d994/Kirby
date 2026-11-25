@@ -1,304 +1,309 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>KIRBY — 3D-презентация персонажа</title>
-<meta name="description" content="Сайт-презентация про Кирби: интерактивная 3D-модель, анимации и вся информация о розовом герое Nintendo." />
-<meta name="theme-color" content="#ff8fb8" />
-<link rel="icon" type="image/webp" href="assets/kirbylogo1.webp" />
-<link rel="apple-touch-icon" href="assets/kirbylogo1.webp" />
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet" />
-<!-- FontAwesome для иконок дисциплин -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
-<link rel="stylesheet" href="style.css" />
-<script type="importmap">
-{
-"imports": {
-"three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
-"three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
-}
-}
-</script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>KIRBY — 3D-презентация персонажа</title>
+  <meta name="description" content="Сайт-презентация про Кирби: интерактивная 3D-модель, анимации и вся информация о розовом герое Nintendo." />
+  <meta name="theme-color" content="#ff8fb8" />
+  <!-- Фавикон: логотип Кирби -->
+  <link rel="icon" type="image/webp" href="assets/kirbylogo1.webp" />
+  <link rel="apple-touch-icon" href="assets/kirbylogo1.webp" />
+  <!-- Шрифты -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <!-- FontAwesome для иконок дисциплин -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <link rel="stylesheet" href="style.css" />
+  <!-- Import map для Three.js -->
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+    }
+  }
+  </script>
 </head>
 <body>
-<div class="sky" aria-hidden="true">
-<span class="star s1">★</span><span class="star s2">★</span><span class="star s3">✦</span>
-<span class="star s4">★</span><span class="star s5">✦</span><span class="star s6">★</span>
-</div>
-<header class="header">
-<a href="#hero" class="logo">
-  <img src="assets/kirbylogo1.webp" alt="KIRBY" class="logo-img-small" />
-  <img src="assets/kirbylogobig.webp" alt="KIRBY" class="logo-img-big" />
-</a>
-<button class="burger" id="burger" aria-label="Открыть меню" aria-expanded="false" aria-controls="nav">
-<span></span><span></span><span></span>
-</button>
-<nav class="nav" id="nav">
-<a href="#about">О персонаже</a>
-<a href="#look">Внешний вид</a>
-<a href="#abilities">Способности</a>
-<a href="#timeline">Игры</a>
-<a href="#friends">Друзья и враги</a>
-<a href="#project">Проект</a>
-<a href="#facts">Факты</a>
-</nav>
-</header>
-<main>
-<!-- ===================== 1. HERO ===================== -->
-<section class="hero" id="hero">
-<div class="hero-logos">
-  <img src="assets/kirbylogobig.webp" alt="KIRBY" class="hero-logo-big" />
-  <img src="assets/kirbylogo1.webp" alt="KIRBY" class="hero-logo-small" />
-</div>
-<div class="switcher" role="tablist" aria-label="Режим просмотра">
-<button class="switch-btn active" role="tab" aria-selected="true" data-mode="model">🎮 3D-модель</button>
-<button class="switch-btn" role="tab" aria-selected="false" data-mode="video1">🎬 Анимация</button>
-<button class="switch-btn" role="tab" aria-selected="false" data-mode="video2">🎥 Облёт камеры</button>
-</div>
-<div class="stage">
-<div class="panel active" id="panel-model" data-panel="model">
-<div id="viewer" class="viewer"></div>
-<div class="loader" id="loader">
-<div class="loader-kirby"></div>
-<p id="loader-text">Загружаем Кирби… 0%</p>
-</div>
-<div class="viewer-error" id="viewer-error" hidden>
-<p>😢 Не удалось загрузить 3D-модель.</p>
-<small>Проверьте, что файлы <code>assets/kirby.obj</code> и <code>assets/kirby.mtl</code> на месте, и откройте сайт через веб-сервер (не file://). Подробности — в консоли (F12).</small>
-</div>
-<div class="viewer-controls">
-<button class="mini-btn" id="btn-rotate" aria-pressed="true" title="Автовращение">⟳ Вращение</button>
-<button class="mini-btn" id="btn-reset" title="Сбросить камеру">⌂ Сброс</button>
-</div>
-<p class="hint">Крутите мышью или пальцем · колесо / щипок — масштаб</p>
-</div>
-<div class="panel" id="panel-video1" data-panel="video1" hidden>
-<video class="video" src="assets/kirby_loop.mp4" autoplay loop muted playsinline preload="metadata"></video>
-<p class="video-error" hidden>Видео <code>assets/kirby_loop.mp4</code> не найдено.</p>
-</div>
-<div class="panel" id="panel-video2" data-panel="video2" hidden>
-<video class="video" src="assets/kirby_camera.mp4" autoplay loop muted playsinline preload="metadata"></video>
-<p class="video-error" hidden>Видео <code>assets/kirby_camera.mp4</code> не найдено.</p>
-</div>
-</div>
-<div class="download-bar">
-<a href="assets/kirby.obj" download="kirby.obj" class="download-btn">
-📦 Скачать модель (.obj)
-</a>
-<a href="assets/kirby_textures.zip" download="kirby_textures.zip" class="download-btn download-btn-alt">
-🎨 Скачать текстуры (.zip)
-</a>
-</div>
-<a href="#about" class="scroll-down" aria-label="Листать вниз">▼</a>
-</section>
+  <!-- Декоративные звёзды -->
+  <div class="sky" aria-hidden="true">
+    <span class="star s1">★</span><span class="star s2">★</span><span class="star s3">✦</span>
+    <span class="star s4">★</span><span class="star s5">✦</span><span class="star s6">★</span>
+  </div>
 
-<!-- ===================== 2. О ПЕРСОНАЖЕ ===================== -->
-<section class="section" id="about">
-<h2 class="section-title reveal">О персонаже</h2>
-<div class="about-grid">
-<div class="card reveal">
-<p class="lead">
-<strong>Кирби</strong> — жизнерадостный круглый герой с далёкой планеты <strong>Поп-Стар</strong>,
-живущий в мирной стране <strong>Дрим-Ленд</strong>. Он обожает вкусно поесть, крепко поспать
-и всегда готов броситься на помощь друзьям — даже если для этого придётся проглотить
-очередного злодея целиком.
-</p>
-<p>
-Кирби — один из самых узнаваемых персонажей Nintendo. За свою историю он побывал в
-десятках игр самых разных жанров: платформерах, гонках, головоломках, пинболе и даже
-в игре про вязаный мир из ниток.
-</p>
-</div>
-<ul class="info-list reveal">
-<li><span class="info-label">Создатель</span><span>Масахиро Сакурай</span></li>
-<li><span class="info-label">Студия</span><span>HAL Laboratory</span></li>
-<li><span class="info-label">Издатель</span><span>Nintendo</span></li>
-<li><span class="info-label">Год создания</span><span>1992</span></li>
-<li><span class="info-label">Первая игра</span><span>Kirby's Dream Land (Game Boy)</span></li>
-<li><span class="info-label">Дебют в Японии</span><span>27 апреля 1992</span></li>
-<li><span class="info-label">Родной мир</span><span>Планета Поп-Стар, Дрим-Ленд</span></li>
-</ul>
-</div>
-</section>
+  <!-- ===================== ШАПКА ===================== -->
+  <header class="header">
+    <a href="#hero" class="logo" aria-label="KIRBY — на главную">
+      <img src="assets/kirbylogo1.webp" alt="" class="logo-img-small" />
+      <img src="assets/kirbylogobig.webp" alt="" class="logo-img-big" />
+    </a>
+    <button class="burger" id="burger" aria-label="Открыть меню" aria-expanded="false" aria-controls="nav">
+      <span></span><span></span><span></span>
+    </button>
+    <nav class="nav" id="nav">
+      <a href="#about">О персонаже</a>
+      <a href="#look">Внешний вид</a>
+      <a href="#abilities">Способности</a>
+      <a href="#timeline">Игры</a>
+      <a href="#friends">Друзья и враги</a>
+      <a href="#project">Проект</a>
+      <a href="#facts">Факты</a>
+    </nav>
+  </header>
 
-<!-- ===================== 3. ВНЕШНИЙ ВИД ===================== -->
-<section class="section section-alt" id="look">
-<h2 class="section-title reveal">Внешний вид</h2>
-<p class="section-intro reveal">
-Дизайн Кирби — образец гениальной простоты: его можно нарисовать одним кругом
-и парой штрихов. Именно поэтому его невозможно спутать ни с кем другим.
-</p>
-<div class="look-grid">
-<div class="look-card reveal"><div class="look-icon">🩷</div><h3>Розовый цвет</h3><p>Нежно-розовое тело — визитная карточка героя.</p></div>
-<div class="look-card reveal"><div class="look-icon">⚪</div><h3>Идеально круглый</h3><p>Тело-шарик, которое умеет надуваться, чтобы парить в воздухе.</p></div>
-<div class="look-card reveal"><div class="look-icon">✋</div><h3>Маленькие ручки</h3><p>Короткие округлые ручки без пальцев — но меч он держит уверенно.</p></div>
-<div class="look-card reveal"><div class="look-icon">👟</div><h3>Красные ботинки</h3><p>Крупные красные ножки-ботинки, на которых он бодро топает.</p></div>
-<div class="look-card reveal"><div class="look-icon">😊</div><h3>Румяные щёчки</h3><p>Розовый румянец под глазами делает его вечно смущённо-милым.</p></div>
-<div class="look-card reveal"><div class="look-icon">👀</div><h3>Овальные глаза</h3><p>Большие тёмно-синие глаза с бликами и крошечный улыбающийся рот.</p></div>
-</div>
-<p class="note reveal">📏 Согласно буклету к игре Kirby's Adventure, рост Кирби — всего около 20 см (8 дюймов).</p>
-</section>
+  <main>
+    <!-- ===================== 1. HERO ===================== -->
+    <section class="hero" id="hero">
+      <div class="hero-logos">
+        <img src="assets/kirbylogobig.webp" alt="KIRBY" class="hero-logo-big" />
+        <img src="assets/kirbylogo1.webp" alt="KIRBY" class="hero-logo-small" />
+      </div>
+      <div class="switcher" role="tablist" aria-label="Режим просмотра">
+        <button class="switch-btn active" role="tab" aria-selected="true" data-mode="model">🎮 3D-модель</button>
+        <button class="switch-btn" role="tab" aria-selected="false" data-mode="video1">🎬 Анимация</button>
+        <button class="switch-btn" role="tab" aria-selected="false" data-mode="video2">🎥 Облёт камеры</button>
+      </div>
+      <div class="stage">
+        <div class="panel active" id="panel-model" data-panel="model">
+          <div id="viewer" class="viewer"></div>
+          <div class="loader" id="loader">
+            <div class="loader-kirby"></div>
+            <p id="loader-text">Загружаем Кирби… 0%</p>
+          </div>
+          <div class="viewer-error" id="viewer-error" hidden>
+            <p>😢 Не удалось загрузить 3D-модель.</p>
+            <small>Проверьте, что файлы <code>assets/kirby.obj</code> и <code>assets/kirby.mtl</code> на месте, и откройте сайт через веб-сервер (не file://). Подробности — в консоли (F12).</small>
+          </div>
+          <div class="viewer-controls">
+            <button class="mini-btn" id="btn-rotate" aria-pressed="true" title="Автовращение">⟳ Вращение</button>
+            <button class="mini-btn" id="btn-reset" title="Сбросить камеру">⌂ Сброс</button>
+          </div>
+          <p class="hint">Крутите мышью или пальцем · колесо / щипок — масштаб</p>
+        </div>
+        <div class="panel" id="panel-video1" data-panel="video1" hidden>
+          <video class="video" src="assets/kirby_loop.mp4" autoplay loop muted playsinline preload="metadata"></video>
+          <p class="video-error" hidden>Видео <code>assets/kirby_loop.mp4</code> не найдено.</p>
+        </div>
+        <div class="panel" id="panel-video2" data-panel="video2" hidden>
+          <video class="video" src="assets/kirby_camera.mp4" autoplay loop muted playsinline preload="metadata"></video>
+          <p class="video-error" hidden>Видео <code>assets/kirby_camera.mp4</code> не найдено.</p>
+        </div>
+      </div>
+      <div class="download-bar">
+        <a href="assets/kirby.obj" download="kirby.obj" class="download-btn">📦 Скачать модель (.obj)</a>
+        <a href="assets/kirby_textures.zip" download="kirby_textures.zip" class="download-btn download-btn-alt">🎨 Скачать текстуры (.zip)</a>
+      </div>
+      <a href="#about" class="scroll-down" aria-label="Листать вниз">▼</a>
+    </section>
 
-<!-- ===================== 4. СПОСОБНОСТИ ===================== -->
-<section class="section" id="abilities">
-<h2 class="section-title reveal">Способности</h2>
-<div class="power-intro reveal">
-<div class="power-step"><span>1</span><p><strong>Вдох</strong><br />Кирби втягивает врага мощным потоком воздуха.</p></div>
-<div class="power-step"><span>2</span><p><strong>Глоток</strong><br />Проглатывает противника целиком…</p></div>
-<div class="power-step"><span>3</span><p><strong>Копирование</strong><br />…и получает его силу вместе с новой шапочкой!</p></div>
-</div>
-<p class="section-intro reveal">
-Механика копирования появилась во второй игре — <em>Kirby's Adventure</em> (1993) — и с тех пор стала главной фишкой серии.
-Ещё Кирби умеет надуваться и летать, а проглоченного врага можно выплюнуть в виде звезды-снаряда.
-</p>
-<div class="ability-grid">
-<article class="ability reveal"><div class="ability-icon">🔥</div><h3>Огонь</h3><p>Изрыгает пламя и превращается в огненный болид.</p><small>От: Хот Хэд</small></article>
-<article class="ability reveal"><div class="ability-icon">❄️</div><h3>Лёд</h3><p>Ледяное дыхание замораживает врагов в глыбы, которые можно пинать.</p><small>От: Чилли</small></article>
-<article class="ability reveal"><div class="ability-icon">⚔️</div><h3>Меч</h3><p>Зелёный колпак в стиле Линка и стремительные удары клинком.</p><small>От: Сорд Найт</small></article>
-<article class="ability reveal"><div class="ability-icon">✨</div><h3>Луч</h3><p>Энергетический хлыст из искр, который бьёт сквозь стены.</p><small>От: Ваддл Ду</small></article>
-<article class="ability reveal"><div class="ability-icon">🪨</div><h3>Камень</h3><p>Становится неуязвимой тяжёлой глыбой и давит врагов сверху.</p><small>От: Роки</small></article>
-<article class="ability reveal"><div class="ability-icon">🦔</div><h3>Игла</h3><p>Выпускает колючки во все стороны, как ёжик.</p><small>От: Тогезо</small></article>
-<article class="ability reveal"><div class="ability-icon">🛞</div><h3>Колесо</h3><p>Превращается в колесо и мчится, сбивая всех на пути.</p><small>От: Вили</small></article>
-<article class="ability reveal"><div class="ability-icon">🪞</div><h3>Зеркало</h3><p>Отражает атаки и создаёт зеркальные щиты и копии.</p><small>От: Симиррор</small></article>
-<article class="ability reveal"><div class="ability-icon">💤</div><h3>Сон</h3><p>Бесполезная, но очаровательная способность: Кирби просто засыпает.</p><small>От: Нодди</small></article>
-<article class="ability reveal"><div class="ability-icon">🥊</div><h3>Боец</h3><p>Повязка на лбу, серии ударов и фирменный «Хадокен»-стиль.</p><small>От: Наклз Джо</small></article>
-</div>
-</section>
+    <!-- ===================== 2. О ПЕРСОНАЖЕ ===================== -->
+    <section class="section" id="about">
+      <h2 class="section-title reveal">О персонаже</h2>
+      <div class="about-grid">
+        <div class="card reveal">
+          <p class="lead">
+            <strong>Кирби</strong> — жизнерадостный круглый герой с далёкой планеты <strong>Поп-Стар</strong>,
+            живущий в мирной стране <strong>Дрим-Ленд</strong>. Он обожает вкусно поесть, крепко поспать
+            и всегда готов броситься на помощь друзьям — даже если для этого придётся проглотить
+            очередного злодея целиком.
+          </p>
+          <p>
+            Кирби — один из самых узнаваемых персонажей Nintendo. За свою историю он побывал в
+            десятках игр самых разных жанров: платформерах, гонках, головоломках, пинболе и даже
+            в игре про вязаный мир из ниток.
+          </p>
+        </div>
+        <ul class="info-list reveal">
+          <li><span class="info-label">Создатель</span><span>Масахиро Сакурай</span></li>
+          <li><span class="info-label">Студия</span><span>HAL Laboratory</span></li>
+          <li><span class="info-label">Издатель</span><span>Nintendo</span></li>
+          <li><span class="info-label">Год создания</span><span>1992</span></li>
+          <li><span class="info-label">Первая игра</span><span>Kirby's Dream Land (Game Boy)</span></li>
+          <li><span class="info-label">Дебют в Японии</span><span>27 апреля 1992</span></li>
+          <li><span class="info-label">Родной мир</span><span>Планета Поп-Стар, Дрим-Ленд</span></li>
+        </ul>
+      </div>
+    </section>
 
-<!-- ===================== 5. ТАЙМЛАЙН ИГР ===================== -->
-<section class="section section-alt" id="timeline">
-<h2 class="section-title reveal">История серии</h2>
-<ol class="timeline">
-<li class="reveal"><span class="year">1992</span><div class="tl-card"><h3>Kirby's Dream Land</h3><small>Game Boy</small><p>Дебют Кирби. Короткая и добрая игра для новичков — на монохромном экране никто ещё не знал, что герой розовый.</p></div></li>
-<li class="reveal"><span class="year">1993</span><div class="tl-card"><h3>Kirby's Adventure</h3><small>NES</small><p>Первая цветная игра и появление легендарного копирования способностей. Дебют Мета Рыцаря.</p></div></li>
-<li class="reveal"><span class="year">1996</span><div class="tl-card"><h3>Kirby Super Star</h3><small>SNES</small><p>Сборник из нескольких игр в одной, кооператив для двоих и культовый режим «Revenge of Meta Knight».</p></div></li>
-<li class="reveal"><span class="year">1999</span><div class="tl-card"><h3>Super Smash Bros.</h3><small>Nintendo 64</small><p>Кирби — среди восьми стартовых бойцов первого «Смэша», созданного тем же Масахиро Сакураем.</p></div></li>
-<li class="reveal"><span class="year">2000</span><div class="tl-card"><h3>Kirby 64: The Crystal Shards</h3><small>Nintendo 64</small><p>Первый 2.5D-платформер серии, где способности можно было комбинировать.</p></div></li>
-<li class="reveal"><span class="year">2010</span><div class="tl-card"><h3>Kirby's Epic Yarn</h3><small>Wii</small><p>Весь мир сшит из ниток и ткани, а Кирби превращается в пряжу.</p></div></li>
-<li class="reveal"><span class="year">2011</span><div class="tl-card"><h3>Kirby's Return to Dream Land</h3><small>Wii</small><p>Классическое приключение для четырёх игроков и первое появление Магалора.</p></div></li>
-<li class="reveal"><span class="year">2014</span><div class="tl-card"><h3>Kirby: Triple Deluxe</h3><small>Nintendo 3DS</small><p>Путешествие в небесное королевство Флоралия и битва с королевой Сектонией.</p></div></li>
-<li class="reveal"><span class="year">2018</span><div class="tl-card"><h3>Kirby Star Allies</h3><small>Nintendo Switch</small><p>Кирби бросает врагам сердечки и превращает их в союзников.</p></div></li>
-<li class="reveal"><span class="year">2022</span><div class="tl-card"><h3>Kirby and the Forgotten Land</h3><small>Nintendo Switch</small><p>Первая полноценная 3D-игра основной серии и самая продаваемая игра про Кирби. Новый трюк — «Набивка ртом»: Кирби проглатывает машину и сам становится ею.</p></div></li>
-</ol>
-</section>
+    <!-- ===================== 3. ВНЕШНИЙ ВИД ===================== -->
+    <section class="section section-alt" id="look">
+      <h2 class="section-title reveal">Внешний вид</h2>
+      <p class="section-intro reveal">
+        Дизайн Кирби — образец гениальной простоты: его можно нарисовать одним кругом
+        и парой штрихов. Именно поэтому его невозможно спутать ни с кем другим.
+      </p>
+      <div class="look-grid">
+        <div class="look-card reveal"><div class="look-icon">🩷</div><h3>Розовый цвет</h3><p>Нежно-розовое тело — визитная карточка героя.</p></div>
+        <div class="look-card reveal"><div class="look-icon">⚪</div><h3>Идеально круглый</h3><p>Тело-шарик, которое умеет надуваться, чтобы парить в воздухе.</p></div>
+        <div class="look-card reveal"><div class="look-icon">✋</div><h3>Маленькие ручки</h3><p>Короткие округлые ручки без пальцев — но меч он держит уверенно.</p></div>
+        <div class="look-card reveal"><div class="look-icon">👟</div><h3>Красные ботинки</h3><p>Крупные красные ножки-ботинки, на которых он бодро топает.</p></div>
+        <div class="look-card reveal"><div class="look-icon">😊</div><h3>Румяные щёчки</h3><p>Розовый румянец под глазами делает его вечно смущённо-милым.</p></div>
+        <div class="look-card reveal"><div class="look-icon">👀</div><h3>Овальные глаза</h3><p>Большие тёмно-синие глаза с бликами и крошечный улыбающийся рот.</p></div>
+      </div>
+      <p class="note reveal">📏 Согласно буклету к игре Kirby's Adventure, рост Кирби — всего около 20 см (8 дюймов).</p>
+    </section>
 
-<!-- ===================== 6. ДРУЗЬЯ И ВРАГИ ===================== -->
-<section class="section" id="friends">
-<h2 class="section-title reveal">Друзья и враги</h2>
-<div class="char-grid">
-<article class="char reveal">
-<div class="char-avatar c-dedede">👑</div>
-<h3>Король Дидиди</h3>
-<span class="tag tag-both">Соперник и друг</span>
-<p>Самопровозглашённый король Дрим-Ленда с огромным молотом. Был главным злодеем в первой игре, но со временем стал скорее вредным приятелем, который не раз сражался бок о бок с Кирби.</p>
-</article>
-<article class="char reveal">
-<div class="char-avatar c-meta">🗡️</div>
-<h3>Мета Рыцарь</h3>
-<span class="tag tag-both">Благородный соперник</span>
-<p>Загадочный фехтовальщик в маске с крыльями, похожими на крылья летучей мыши. Владеет мечом Галаксия и живёт по кодексу чести — даёт Кирби меч, чтобы поединок был честным.</p>
-</article>
-<article class="char reveal">
-<div class="char-avatar c-bandana">🔵</div>
-<h3>Бандана Ваддл Ди</h3>
-<span class="tag tag-friend">Верный друг</span>
-<p>Особый Ваддл Ди в синей бандане, сражающийся копьём. Помощник короля Дидиди и лучший друг Кирби — играбельный персонаж во многих играх серии.</p>
-</article>
-<article class="char reveal">
-<div class="char-avatar c-sectonia">🐝</div>
-<h3>Королева Сектония</h3>
-<span class="tag tag-enemy">Злодейка</span>
-<p>Правительница небесного королевства Флоралия из игры Kirby: Triple Deluxe. Одержимая собственной красотой, она пыталась захватить Дрим-Ленд с помощью магического бобового стебля.</p>
-</article>
-</div>
-</section>
+    <!-- ===================== 4. СПОСОБНОСТИ ===================== -->
+    <section class="section" id="abilities">
+      <h2 class="section-title reveal">Способности</h2>
+      <div class="power-intro reveal">
+        <div class="power-step"><span>1</span><p><strong>Вдох</strong><br />Кирби втягивает врага мощным потоком воздуха.</p></div>
+        <div class="power-step"><span>2</span><p><strong>Глоток</strong><br />Проглатывает противника целиком…</p></div>
+        <div class="power-step"><span>3</span><p><strong>Копирование</strong><br />…и получает его силу вместе с новой шапочкой!</p></div>
+      </div>
+      <p class="section-intro reveal">
+        Механика копирования появилась во второй игре — <em>Kirby's Adventure</em> (1993) — и с тех пор стала главной фишкой серии.
+        Ещё Кирби умеет надуваться и летать, а проглоченного врага можно выплюнуть в виде звезды-снаряда.
+      </p>
+      <div class="ability-grid">
+        <article class="ability reveal"><div class="ability-icon">🔥</div><h3>Огонь</h3><p>Изрыгает пламя и превращается в огненный болид.</p><small>От: Хот Хэд</small></article>
+        <article class="ability reveal"><div class="ability-icon">❄️</div><h3>Лёд</h3><p>Ледяное дыхание замораживает врагов в глыбы, которые можно пинать.</p><small>От: Чилли</small></article>
+        <article class="ability reveal"><div class="ability-icon">⚔️</div><h3>Меч</h3><p>Зелёный колпак в стиле Линка и стремительные удары клинком.</p><small>От: Сорд Найт</small></article>
+        <article class="ability reveal"><div class="ability-icon">✨</div><h3>Луч</h3><p>Энергетический хлыст из искр, который бьёт сквозь стены.</p><small>От: Ваддл Ду</small></article>
+        <article class="ability reveal"><div class="ability-icon">🪨</div><h3>Камень</h3><p>Становится неуязвимой тяжёлой глыбой и давит врагов сверху.</p><small>От: Роки</small></article>
+        <article class="ability reveal"><div class="ability-icon">🦔</div><h3>Игла</h3><p>Выпускает колючки во все стороны, как ёжик.</p><small>От: Тогезо</small></article>
+        <article class="ability reveal"><div class="ability-icon">🛞</div><h3>Колесо</h3><p>Превращается в колесо и мчится, сбивая всех на пути.</p><small>От: Вили</small></article>
+        <article class="ability reveal"><div class="ability-icon">🪞</div><h3>Зеркало</h3><p>Отражает атаки и создаёт зеркальные щиты и копии.</p><small>От: Симиррор</small></article>
+        <article class="ability reveal"><div class="ability-icon">💤</div><h3>Сон</h3><p>Бесполезная, но очаровательная способность: Кирби просто засыпает.</p><small>От: Нодди</small></article>
+        <article class="ability reveal"><div class="ability-icon">🥊</div><h3>Боец</h3><p>Повязка на лбу, серии ударов и фирменный «Хадокен»-стиль.</p><small>От: Наклз Джо</small></article>
+      </div>
+    </section>
 
-<!-- ===================== 7. ОБ УЧЕБНОМ ПРОЕКТЕ (НОВАЯ СЕКЦИЯ) ===================== -->
-<section class="section section-alt" id="project" aria-labelledby="project-title">
-<div class="wrap">
-<h2 class="section-title reveal" id="project-title">Об учебном проекте</h2>
-<p class="section-intro reveal">Этот сайт-презентация подготовлен как учебный проект по специальности 09.02.07 «Информационные системы и программирование».</p>
-<div class="project-card reveal">
-<div class="college-head">
-<img class="college-emblem" src="assets/vagpklogo.webp" alt="Эмблема Воркутинского арктического горно-политехнического колледжа" />
-<div>
-<p class="college-label">Учебное заведение</p>
-<h3 class="college-name">ГПОУ «Воркутинский арктический горно-политехнический колледж»</h3>
-<p class="college-city"><i class="fa-solid fa-location-dot" aria-hidden="true"></i>г. Воркута, Республика Коми</p>
-</div>
-</div>
-<dl class="author-list">
-<div>
-<dt>Автор проекта</dt>
-<dd>Заббаров Артур Робертович</dd>
-</div>
-<div>
-<dt>Специальность</dt>
-<dd>09.02.07 «Информационные системы и программирование»</dd>
-</div>
-<div>
-<dt>Квалификация</dt>
-<dd>Разработчик веб и мультимедийных приложений</dd>
-</div>
-<div>
-<dt>Форма обучения</dt>
-<dd>Очная, 3 года 10 месяцев</dd>
-</div>
-</dl>
-</div>
-<h3 class="subsection-title reveal">Изучаемые дисциплины</h3>
-<ul class="discipline-grid reveal">
-<li class="discipline-item"><i class="fa-solid fa-code" aria-hidden="true"></i><span>Основы алгоритмизации и программирования</span></li>
-<li class="discipline-item"><i class="fa-solid fa-database" aria-hidden="true"></i><span>Основы проектирования баз данных</span></li>
-<li class="discipline-item"><i class="fa-solid fa-laptop-code" aria-hidden="true"></i><span>Разработка кода информационных систем</span></li>
-<li class="discipline-item"><i class="fa-solid fa-bug" aria-hidden="true"></i><span>Тестирование информационных систем</span></li>
-<li class="discipline-item"><i class="fa-solid fa-diagram-project" aria-hidden="true"></i><span>Управление проектами</span></li>
-<li class="discipline-item"><i class="fa-solid fa-server" aria-hidden="true"></i><span>Внедрение и поддержка компьютерных систем</span></li>
-<li class="discipline-item"><i class="fa-solid fa-shield-halved" aria-hidden="true"></i><span>Обеспечение качества функционирования систем</span></li>
-<li class="discipline-item"><i class="fa-solid fa-globe" aria-hidden="true"></i><span>Проектирование и разработка веб-приложений</span></li>
-</ul>
-<h3 class="subsection-title reveal">Специальность в фотографиях</h3>
-<div class="photo-grid">
-<figure class="photo-card reveal">
-<div class="photo-frame">
-<img alt="Студент-программист пишет код на ноутбуке" src="https://files.cdn-files-a.com/admin/system_photos_stock/1200_6af2eac22d655.jpg?ratio=16:9&format=avif" loading="lazy" />
-</div>
-<figcaption>Практические занятия: разработка кода информационных систем и веб-приложений.</figcaption>
-</figure>
-<figure class="photo-card reveal">
-<div class="photo-frame">
-<img alt="Серверное оборудование и базы данных учебной лаборатории" src="https://files.cdn-files-a.com/admin/system_photos_stock/1200_695cd65498484.jpg?ratio=16:9&format=avif" loading="lazy" />
-</div>
-<figcaption>Учебная лаборатория: серверное оборудование, сети и проектирование баз данных.</figcaption>
-</figure>
-</div>
-</div>
-</section>
+    <!-- ===================== 5. ТАЙМЛАЙН ===================== -->
+    <section class="section section-alt" id="timeline">
+      <h2 class="section-title reveal">История серии</h2>
+      <ol class="timeline">
+        <li class="reveal"><span class="year">1992</span><div class="tl-card"><h3>Kirby's Dream Land</h3><small>Game Boy</small><p>Дебют Кирби. Короткая и добрая игра для новичков — на монохромном экране никто ещё не знал, что герой розовый.</p></div></li>
+        <li class="reveal"><span class="year">1993</span><div class="tl-card"><h3>Kirby's Adventure</h3><small>NES</small><p>Первая цветная игра и появление легендарного копирования способностей. Дебют Мета Рыцаря.</p></div></li>
+        <li class="reveal"><span class="year">1996</span><div class="tl-card"><h3>Kirby Super Star</h3><small>SNES</small><p>Сборник из нескольких игр в одной, кооператив для двоих и культовый режим «Revenge of Meta Knight».</p></div></li>
+        <li class="reveal"><span class="year">1999</span><div class="tl-card"><h3>Super Smash Bros.</h3><small>Nintendo 64</small><p>Кирби — среди восьми стартовых бойцов первого «Смэша», созданного тем же Масахиро Сакураем.</p></div></li>
+        <li class="reveal"><span class="year">2000</span><div class="tl-card"><h3>Kirby 64: The Crystal Shards</h3><small>Nintendo 64</small><p>Первый 2.5D-платформер серии, где способности можно было комбинировать.</p></div></li>
+        <li class="reveal"><span class="year">2010</span><div class="tl-card"><h3>Kirby's Epic Yarn</h3><small>Wii</small><p>Весь мир сшит из ниток и ткани, а Кирби превращается в пряжу.</p></div></li>
+        <li class="reveal"><span class="year">2011</span><div class="tl-card"><h3>Kirby's Return to Dream Land</h3><small>Wii</small><p>Классическое приключение для четырёх игроков и первое появление Магалора.</p></div></li>
+        <li class="reveal"><span class="year">2014</span><div class="tl-card"><h3>Kirby: Triple Deluxe</h3><small>Nintendo 3DS</small><p>Путешествие в небесное королевство Флоралия и битва с королевой Сектонией.</p></div></li>
+        <li class="reveal"><span class="year">2018</span><div class="tl-card"><h3>Kirby Star Allies</h3><small>Nintendo Switch</small><p>Кирби бросает врагам сердечки и превращает их в союзников.</p></div></li>
+        <li class="reveal"><span class="year">2022</span><div class="tl-card"><h3>Kirby and the Forgotten Land</h3><small>Nintendo Switch</small><p>Первая полноценная 3D-игра основной серии и самая продаваемая игра про Кирби. Новый трюк — «Набивка ртом»: Кирби проглатывает машину и сам становится ею.</p></div></li>
+      </ol>
+    </section>
 
-<!-- ===================== 8. ИНТЕРЕСНЫЕ ФАКТЫ ===================== -->
-<section class="section" id="facts">
-<h2 class="section-title reveal">Интересные факты</h2>
-<div class="facts">
-<div class="fact reveal"><span class="fact-num">01</span><p>Японская серия называется <strong>«Hoshi no Kābī»</strong> (星のカービィ) — «Кирби со звезды».</p></div>
-<div class="fact reveal"><span class="fact-num">02</span><p>Днём рождения Кирби считается <strong>27 апреля 1992 года</strong> — дата выхода Kirby's Dream Land в Японии. В 2022 году серия отпраздновала 30-летие.</p></div>
-<div class="fact reveal"><span class="fact-num">03</span><p>Кирби участвует в <strong>Super Smash Bros.</strong> с самой первой части (1999) — он входил в восьмёрку изначально доступных бойцов.</p></div>
-<div class="fact reveal"><span class="fact-num">04</span><p>Изначально Кирби был <strong>временным спрайтом-заглушкой</strong> под рабочим именем «Попопо», а игра называлась «Twinkle Popo». Простой шарик понравился команде так, что его оставили.</p></div>
-<div class="fact reveal"><span class="fact-num">05</span><p>На американской обложке Kirby's Dream Land герой был <strong>белым</strong>. Сигэру Миямото предлагал сделать его жёлтым, но Сакурай настоял на розовом.</p></div>
-<div class="fact reveal"><span class="fact-num">06</span><p>По распространённой версии, имя Кирби дано в честь <strong>Джона Кирби</strong> — адвоката, выигравшего для Nintendo суд против Universal из-за Donkey Kong.</p></div>
-<div class="fact reveal"><span class="fact-num">07</span><p>По мотивам игр сняли аниме <strong>«Hoshi no Kirby»</strong> (2001–2003) — 100 серий, в США оно шло как «Kirby: Right Back at Ya!».</p></div>
-</div>
-</section>
-</main>
+    <!-- ===================== 6. ДРУЗЬЯ И ВРАГИ ===================== -->
+    <section class="section" id="friends">
+      <h2 class="section-title reveal">Друзья и враги</h2>
+      <div class="char-grid">
+        <article class="char reveal">
+          <div class="char-avatar c-dedede">👑</div>
+          <h3>Король Дидиди</h3>
+          <span class="tag tag-both">Соперник и друг</span>
+          <p>Самопровозглашённый король Дрим-Ленда с огромным молотом. Был главным злодеем в первой игре, но со временем стал скорее вредным приятелем, который не раз сражался бок о бок с Кирби.</p>
+        </article>
+        <article class="char reveal">
+          <div class="char-avatar c-meta">🗡️</div>
+          <h3>Мета Рыцарь</h3>
+          <span class="tag tag-both">Благородный соперник</span>
+          <p>Загадочный фехтовальщик в маске с крыльями, похожими на крылья летучей мыши. Владеет мечом Галаксия и живёт по кодексу чести — даёт Кирби меч, чтобы поединок был честным.</p>
+        </article>
+        <article class="char reveal">
+          <div class="char-avatar c-bandana">🔵</div>
+          <h3>Бандана Ваддл Ди</h3>
+          <span class="tag tag-friend">Верный друг</span>
+          <p>Особый Ваддл Ди в синей бандане, сражающийся копьём. Помощник короля Дидиди и лучший друг Кирби — играбельный персонаж во многих играх серии.</p>
+        </article>
+        <article class="char reveal">
+          <div class="char-avatar c-sectonia">🐝</div>
+          <h3>Королева Сектония</h3>
+          <span class="tag tag-enemy">Злодейка</span>
+          <p>Правительница небесного королевства Флоралия из игры Kirby: Triple Deluxe. Одержимая собственной красотой, она пыталась захватить Дрим-Ленд с помощью магического бобового стебля.</p>
+        </article>
+      </div>
+    </section>
 
-<footer class="footer">
-<div class="footer-star">★</div>
-<p>Проект создан для учебного задания.</p>
-<p class="footer-author">Сделан: Заббаров Артур Робертович, группы ИСП-25</p>
-<p class="footer-copy">Kirby © Nintendo / HAL Laboratory.</p>
-</footer>
-<script type="module" src="script.js"></script>
+    <!-- ===================== 7. ОБ УЧЕБНОМ ПРОЕКТЕ ===================== -->
+    <section class="section section-alt" id="project" aria-labelledby="project-title">
+      <div class="wrap">
+        <h2 class="section-title reveal" id="project-title">Об учебном проекте</h2>
+        <p class="section-intro reveal">Этот сайт-презентация подготовлен как учебный проект по специальности 09.02.07 «Информационные системы и программирование».</p>
+        <div class="project-card reveal">
+          <div class="college-head">
+            <img class="college-emblem" src="assets/vagpklogo.webp" alt="Эмблема Воркутинского арктического горно-политехнического колледжа" />
+            <div>
+              <p class="college-label">Учебное заведение</p>
+              <h3 class="college-name">ГПОУ «Воркутинский арктический горно-политехнический колледж»</h3>
+              <p class="college-city"><i class="fa-solid fa-location-dot" aria-hidden="true"></i>г. Воркута, Республика Коми</p>
+            </div>
+          </div>
+          <dl class="author-list">
+            <div>
+              <dt>Автор проекта</dt>
+              <dd>Заббаров Артур Робертович</dd>
+            </div>
+            <div>
+              <dt>Специальность</dt>
+              <dd>09.02.07 «Информационные системы и программирование»</dd>
+            </div>
+            <div>
+              <dt>Квалификация</dt>
+              <dd>Разработчик веб и мультимедийных приложений</dd>
+            </div>
+            <div>
+              <dt>Форма обучения</dt>
+              <dd>Очная, 3 года 10 месяцев</dd>
+            </div>
+          </dl>
+        </div>
+        <h3 class="subsection-title reveal">Изучаемые дисциплины</h3>
+        <ul class="discipline-grid reveal">
+          <li class="discipline-item"><i class="fa-solid fa-code" aria-hidden="true"></i><span>Основы алгоритмизации и программирования</span></li>
+          <li class="discipline-item"><i class="fa-solid fa-database" aria-hidden="true"></i><span>Основы проектирования баз данных</span></li>
+          <li class="discipline-item"><i class="fa-solid fa-laptop-code" aria-hidden="true"></i><span>Разработка кода информационных систем</span></li>
+          <li class="discipline-item"><i class="fa-solid fa-bug" aria-hidden="true"></i><span>Тестирование информационных систем</span></li>
+          <li class="discipline-item"><i class="fa-solid fa-diagram-project" aria-hidden="true"></i><span>Управление проектами</span></li>
+          <li class="discipline-item"><i class="fa-solid fa-server" aria-hidden="true"></i><span>Внедрение и поддержка компьютерных систем</span></li>
+          <li class="discipline-item"><i class="fa-solid fa-shield-halved" aria-hidden="true"></i><span>Обеспечение качества функционирования систем</span></li>
+          <li class="discipline-item"><i class="fa-solid fa-globe" aria-hidden="true"></i><span>Проектирование и разработка веб-приложений</span></li>
+        </ul>
+        <h3 class="subsection-title reveal">Специальность в фотографиях</h3>
+        <div class="photo-grid">
+          <figure class="photo-card reveal">
+            <div class="photo-frame">
+              <img alt="Студент-программист пишет код на ноутбуке" src="https://files.cdn-files-a.com/admin/system_photos_stock/1200_6af2eac22d655.jpg?ratio=16:9&format=avif" loading="lazy" />
+            </div>
+            <figcaption>Практические занятия: разработка кода информационных систем и веб-приложений.</figcaption>
+          </figure>
+          <figure class="photo-card reveal">
+            <div class="photo-frame">
+              <img alt="Серверное оборудование и базы данных учебной лаборатории" src="https://files.cdn-files-a.com/admin/system_photos_stock/1200_695cd65498484.jpg?ratio=16:9&format=avif" loading="lazy" />
+            </div>
+            <figcaption>Учебная лаборатория: серверное оборудование, сети и проектирование баз данных.</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== 8. ФАКТЫ ===================== -->
+    <section class="section" id="facts">
+      <h2 class="section-title reveal">Интересные факты</h2>
+      <div class="facts">
+        <div class="fact reveal"><span class="fact-num">01</span><p>Японская серия называется <strong>«Hoshi no Kābī»</strong> (星のカービィ) — «Кирби со звезды».</p></div>
+        <div class="fact reveal"><span class="fact-num">02</span><p>Днём рождения Кирби считается <strong>27 апреля 1992 года</strong> — дата выхода Kirby's Dream Land в Японии. В 2022 году серия отпраздновала 30-летие.</p></div>
+        <div class="fact reveal"><span class="fact-num">03</span><p>Кирби участвует в <strong>Super Smash Bros.</strong> с самой первой части (1999) — он входил в восьмёрку изначально доступных бойцов.</p></div>
+        <div class="fact reveal"><span class="fact-num">04</span><p>Изначально Кирби был <strong>временным спрайтом-заглушкой</strong> под рабочим именем «Попопо», а игра называлась «Twinkle Popo». Простой шарик понравился команде так, что его оставили.</p></div>
+        <div class="fact reveal"><span class="fact-num">05</span><p>На американской обложке Kirby's Dream Land герой был <strong>белым</strong>. Сигэру Миямото предлагал сделать его жёлтым, но Сакурай настоял на розовом.</p></div>
+        <div class="fact reveal"><span class="fact-num">06</span><p>По распространённой версии, имя Кирби дано в честь <strong>Джона Кирби</strong> — адвоката, выигравшего для Nintendo суд против Universal из-за Donkey Kong.</p></div>
+        <div class="fact reveal"><span class="fact-num">07</span><p>По мотивам игр сняли аниме <strong>«Hoshi no Kirby»</strong> (2001–2003) — 100 серий, в США оно шло как «Kirby: Right Back at Ya!».</p></div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer class="footer">
+    <div class="footer-star">★</div>
+    <p>Проект создан для учебного задания.</p>
+    <p class="footer-author">Сделан: Заббаров Артур Робертович, группы ИСП-25</p>
+    <p class="footer-copy">Kirby © Nintendo / HAL Laboratory.</p>
+  </footer>
+
+  <script type="module" src="script.js"></script>
 </body>
 </html>
