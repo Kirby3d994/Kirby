@@ -6,17 +6,13 @@
   <title>KIRBY — 3D-презентация персонажа</title>
   <meta name="description" content="Сайт-презентация про Кирби: интерактивная 3D-модель, анимации и вся информация о розовом герое Nintendo." />
   <meta name="theme-color" content="#ff8fb8" />
-  <!-- Фавикон: логотип Кирби -->
   <link rel="icon" type="image/webp" href="assets/kirbylogo1.webp" />
   <link rel="apple-touch-icon" href="assets/kirbylogo1.webp" />
-  <!-- Шрифты -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet" />
-  <!-- FontAwesome для иконок дисциплин -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
   <link rel="stylesheet" href="style.css" />
-  <!-- Import map для Three.js -->
   <script type="importmap">
   {
     "imports": {
@@ -27,13 +23,11 @@
   </script>
 </head>
 <body>
-  <!-- Декоративные звёзды -->
   <div class="sky" aria-hidden="true">
     <span class="star s1">★</span><span class="star s2">★</span><span class="star s3">✦</span>
     <span class="star s4">★</span><span class="star s5">✦</span><span class="star s6">★</span>
   </div>
 
-  <!-- ===================== ШАПКА ===================== -->
   <header class="header">
     <a href="#hero" class="logo" aria-label="KIRBY — на главную">
       <img src="assets/kirbylogo1.webp" alt="" class="logo-img-small" />
@@ -60,11 +54,14 @@
         <img src="assets/kirbylogobig.webp" alt="KIRBY" class="hero-logo-big" />
         <img src="assets/kirbylogo1.webp" alt="KIRBY" class="hero-logo-small" />
       </div>
+      <p class="hero-subtitle">Маленький розовый герой с огромным аппетитом и ещё большим сердцем</p>
+
       <div class="switcher" role="tablist" aria-label="Режим просмотра">
         <button class="switch-btn active" role="tab" aria-selected="true" data-mode="model">🎮 3D-модель</button>
         <button class="switch-btn" role="tab" aria-selected="false" data-mode="video1">🎬 Анимация</button>
         <button class="switch-btn" role="tab" aria-selected="false" data-mode="video2">🎥 Облёт камеры</button>
       </div>
+
       <div class="stage">
         <div class="panel active" id="panel-model" data-panel="model">
           <div id="viewer" class="viewer"></div>
@@ -91,10 +88,12 @@
           <p class="video-error" hidden>Видео <code>assets/kirby_camera.mp4</code> не найдено.</p>
         </div>
       </div>
+
       <div class="download-bar">
         <a href="assets/kirby.obj" download="kirby.obj" class="download-btn">📦 Скачать модель (.obj)</a>
         <a href="assets/kirby_textures.zip" download="kirby_textures.zip" class="download-btn download-btn-alt">🎨 Скачать текстуры (.zip)</a>
       </div>
+
       <a href="#about" class="scroll-down" aria-label="Листать вниз">▼</a>
     </section>
 
@@ -171,7 +170,7 @@
       </div>
     </section>
 
-    <!-- ===================== 5. ТАЙМЛАЙН ===================== -->
+    <!-- ===================== 5. ТАЙМЛАЙН ИГР ===================== -->
     <section class="section section-alt" id="timeline">
       <h2 class="section-title reveal">История серии</h2>
       <ol class="timeline">
@@ -234,22 +233,10 @@
             </div>
           </div>
           <dl class="author-list">
-            <div>
-              <dt>Автор проекта</dt>
-              <dd>Заббаров Артур Робертович</dd>
-            </div>
-            <div>
-              <dt>Специальность</dt>
-              <dd>09.02.07 «Информационные системы и программирование»</dd>
-            </div>
-            <div>
-              <dt>Квалификация</dt>
-              <dd>Разработчик веб и мультимедийных приложений</dd>
-            </div>
-            <div>
-              <dt>Форма обучения</dt>
-              <dd>Очная, 3 года 10 месяцев</dd>
-            </div>
+            <div><dt>Автор проекта</dt><dd>Заббаров Артур Робертович</dd></div>
+            <div><dt>Специальность</dt><dd>09.02.07 «Информационные системы и программирование»</dd></div>
+            <div><dt>Квалификация</dt><dd>Разработчик веб и мультимедийных приложений</dd></div>
+            <div><dt>Форма обучения</dt><dd>Очная, 3 года 10 месяцев</dd></div>
           </dl>
         </div>
         <h3 class="subsection-title reveal">Изучаемые дисциплины</h3>
@@ -281,7 +268,7 @@
       </div>
     </section>
 
-    <!-- ===================== 8. ФАКТЫ ===================== -->
+    <!-- ===================== 8. ИНТЕРЕСНЫЕ ФАКТЫ ===================== -->
     <section class="section" id="facts">
       <h2 class="section-title reveal">Интересные факты</h2>
       <div class="facts">
@@ -296,7 +283,6 @@
     </section>
   </main>
 
-  <!-- ===================== FOOTER ===================== -->
   <footer class="footer">
     <div class="footer-star">★</div>
     <p>Проект создан для учебного задания.</p>
