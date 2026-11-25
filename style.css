@@ -1358,39 +1358,4 @@ code {
   .purpose-note { padding: 18px 20px; }
 }
 
-/* Волновая анимация для изображения */
-.hero-logo-wave {
-  display: flex;
-  width: min(400px, 70%);
-  height: auto;
-  aspect-ratio: 16 / 9;
-  gap: 2px;
-}
-
-.wave-slice {
-  flex: 1;
-  background: url('assets/kirbylogobig.webp') center/cover no-repeat;
-  background-position: calc(var(--i, 0) * 25%) center;
-  animation: wave-bounce 2.4s ease-in-out infinite;
-  animation-delay: var(--delay);
-  border-radius: 4px;
-}
-
-.wave-slice:nth-child(1) { --i: 0; background-position: 0% center; }
-.wave-slice:nth-child(2) { --i: 1; background-position: 25% center; }
-.wave-slice:nth-child(3) { --i: 2; background-position: 50% center; }
-.wave-slice:nth-child(4) { --i: 3; background-position: 75% center; }
-.wave-slice:nth-child(5) { --i: 4; background-position: 100% center; }
-
-@keyframes wave-bounce {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-15px); }
-}
-
-/* Адаптив */
-@media (max-width: 860px) {
-  .hero-logo-wave { width: min(320px, 65%); }
-}
-@media (max-width: 600px) {
-  .hero-logo-wave { width: min(260px, 80%); }
-}
+/* Центрируем последнюю карточку в сетке дисциплин */
