@@ -1358,36 +1358,29 @@ code {
   .purpose-note { padding: 18px 20px; }
 }
 
-/* =========================================================
-ВОЛНОВАЯ АНИМАЦИЯ ДЛЯ KIRBYLOGOBIG.WEBP
-========================================================= */
 /* Волновая анимация для изображения */
 .hero-logo-wave {
   display: flex;
-  width: min(420px, 70%);
+  width: min(400px, 70%);
+  height: auto;
   aspect-ratio: 16 / 9;
-  gap: 0;
-  filter: drop-shadow(0 12px 26px rgba(232, 93, 147, 0.35));
+  gap: 2px;
 }
 
 .wave-slice {
   flex: 1;
   background: url('assets/kirbylogobig.webp') center/cover no-repeat;
+  background-position: calc(var(--i, 0) * 25%) center;
   animation: wave-bounce 2.4s ease-in-out infinite;
   animation-delay: var(--delay);
+  border-radius: 4px;
 }
 
-/* Каждая полоса показывает свою часть картинки (10 полос = по 11.11%) */
-.wave-slice:nth-child(1)  { background-position: 0% center; }
-.wave-slice:nth-child(2)  { background-position: 11.11% center; }
-.wave-slice:nth-child(3)  { background-position: 22.22% center; }
-.wave-slice:nth-child(4)  { background-position: 33.33% center; }
-.wave-slice:nth-child(5)  { background-position: 44.44% center; }
-.wave-slice:nth-child(6)  { background-position: 55.55% center; }
-.wave-slice:nth-child(7)  { background-position: 66.66% center; }
-.wave-slice:nth-child(8)  { background-position: 77.77% center; }
-.wave-slice:nth-child(9)  { background-position: 88.88% center; }
-.wave-slice:nth-child(10) { background-position: 100% center; }
+.wave-slice:nth-child(1) { --i: 0; background-position: 0% center; }
+.wave-slice:nth-child(2) { --i: 1; background-position: 25% center; }
+.wave-slice:nth-child(3) { --i: 2; background-position: 50% center; }
+.wave-slice:nth-child(4) { --i: 3; background-position: 75% center; }
+.wave-slice:nth-child(5) { --i: 4; background-position: 100% center; }
 
 @keyframes wave-bounce {
   0%, 100% { transform: translateY(0); }
@@ -1396,8 +1389,8 @@ code {
 
 /* Адаптив */
 @media (max-width: 860px) {
-  .hero-logo-wave { width: min(340px, 65%); }
+  .hero-logo-wave { width: min(320px, 65%); }
 }
 @media (max-width: 600px) {
-  .hero-logo-wave { width: min(280px, 80%); }
+  .hero-logo-wave { width: min(260px, 80%); }
 }
