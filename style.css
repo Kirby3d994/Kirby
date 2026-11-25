@@ -1348,15 +1348,53 @@ code {
   .purpose-note { padding: 18px 20px; }
 }
 
+/* Центрируем последнюю карточку в сетке дисциплин */
 .discipline-grid {
   justify-items: center;
 }
 
+/* На десктопе (4 колонки) — если карточек нечётное число, центрируем последний ряд */
 @media (min-width: 861px) {
   .discipline-grid {
-    justify-content: center;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    justify-items: center;
   }
+  
+  /* Если последняя карточка одна в ряду — центрируем её */
   .discipline-grid li:last-child:nth-child(4n+1) {
     grid-column: 2 / 3;
+  }
+  .discipline-grid li:last-child:nth-child(4n+2) {
+    grid-column: 2 / 4;
+    justify-self: center;
+    width: calc(50% - 7px);
+  }
+  .discipline-grid li:last-child:nth-child(4n+3) {
+    grid-column: 3 / 4;
+  }
+}
+
+/* На планшетах (2 колонки) */
+@media (max-width: 860px) and (min-width: 601px) {
+  .discipline-grid {
+    grid-template-columns: repeat(2, 1fr);
+    justify-items: center;
+  }
+  .discipline-grid li:last-child:nth-child(2n+1) {
+    grid-column: 1 / -1;
+    justify-self: center;
+    width: calc(50% - 7px);
+  }
+}
+
+/* На телефонах (1 колонка) — всё по центру */
+@media (max-width: 600px) {
+  .discipline-grid {
+    grid-template-columns: 1fr;
+    justify-items: center;
+  }
+  .discipline-grid li:last-child {
+    width: 100%;
   }
 }
