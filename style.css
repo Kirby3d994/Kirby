@@ -1347,3 +1347,16 @@ code {
   .specs-grid { grid-template-columns: 1fr; }
   .purpose-note { padding: 18px 20px; }
 }
+
+.discipline-grid {
+  justify-items: center;
+}
+
+@media (min-width: 861px) {
+  .discipline-grid {
+    justify-content: center;
+  }
+  .discipline-grid li:last-child:nth-child(4n+1) {
+    grid-column: 2 / 3;
+  }
+}
