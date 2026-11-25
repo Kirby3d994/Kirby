@@ -9,7 +9,7 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.500000
 d 1.000000
 illum 2
-map_Kd textures/KirbyArm.001_KirbyArm.001_PBR_Diffuse.png
+map_Kd textures/KirbyArm.001_KirbyArm.001_PBR_Diffuse.webp
 
 newmtl KirbyArm.002
 Ns 0.000000
@@ -19,7 +19,7 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.500000
 d 1.000000
 illum 2
-map_Kd textures/KirbyArm.002_KirbyArm.002_PBR_Diffuse.png
+map_Kd textures/KirbyArm.002_KirbyArm.002_PBR_Diffuse.webp
 
 newmtl KirbyFeet
 Ns 0.000000
@@ -29,7 +29,7 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.500000
 d 1.000000
 illum 2
-map_Kd textures/KirbyLegs_KirbyLegs_PBR_Diffuse.png
+map_Kd textures/KirbyLegs_KirbyLegs_PBR_Diffuse.webp
 
 newmtl KirbyGlimmer
 Ns 360.000000
@@ -49,7 +49,7 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.500000
 d 1.000000
 illum 2
-map_Kd textures/KirbyBody_KirbyBody_PBR_Diffuse.png
+map_Kd textures/KirbyBody_KirbyBody_PBR_Diffuse.webp
 
 newmtl Material.001
 Ns 0.000000
@@ -59,7 +59,7 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.500000
 d 1.000000
 illum 2
-map_Kd textures/KirbyMouth_KirbyMouth_PBR_Diffuse.png
+map_Kd textures/KirbyMouth_KirbyMouth_PBR_Diffuse.webp
 
 newmtl Material.002
 Ns 0.000000
@@ -69,4 +69,4 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.000000
 d 1.000000
 illum 2
-map_Kd textures/KirbyEyes2_KirbyEyes2_PBR_Diffuse.png
+map_Kd textures/KirbyEyes2_KirbyEyes2_PBR_Diffuse.webp
