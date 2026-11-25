@@ -1233,3 +1233,120 @@ code {
   .college-name { font-size: 1.15rem; }
   .discipline-grid { grid-template-columns: 1fr; }
 }
+
+/* =========================================================
+   СЕКЦИЯ "НАЗНАЧЕНИЕ 3D-МОДЕЛИ"
+   ========================================================= */
+.purpose-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 22px;
+  margin-top: 30px;
+}
+
+.purpose-card {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  padding: 28px 24px;
+  box-shadow: var(--shadow);
+  transition: transform 0.3s, box-shadow 0.3s;
+  border-top: 5px solid var(--pink);
+}
+
+.purpose-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-strong);
+}
+
+.purpose-icon {
+  width: 64px;
+  height: 64px;
+  margin: 0 auto 14px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  background: var(--pink-pale);
+}
+
+.purpose-card h3 {
+  font-family: var(--font-title);
+  font-weight: 600;
+  font-size: 1.25rem;
+  color: var(--pink-dark);
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.purpose-card p {
+  color: var(--text-soft);
+  text-align: center;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+/* Технические характеристики */
+.specs-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  margin-top: 10px;
+}
+
+.spec-item {
+  background: var(--white);
+  border-radius: var(--radius-md);
+  padding: 18px 16px;
+  text-align: center;
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  transition: transform 0.3s;
+}
+
+.spec-item:hover {
+  transform: translateY(-4px);
+}
+
+.spec-label {
+  font-size: 0.8rem;
+  font-weight: 800;
+  color: var(--pink-dark);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.spec-value {
+  font-weight: 700;
+  color: var(--text);
+  font-size: 1rem;
+}
+
+.purpose-note {
+  margin-top: 30px;
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  padding: 24px 28px;
+  box-shadow: var(--shadow);
+  border-left: 5px solid var(--yellow);
+}
+
+.purpose-note p {
+  color: var(--text-soft);
+  font-size: 0.98rem;
+  line-height: 1.7;
+}
+
+/* ---------- Адаптив ---------- */
+@media (max-width: 860px) {
+  .purpose-grid { grid-template-columns: 1fr; }
+  .specs-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 600px) {
+  .purpose-card { padding: 22px 18px; }
+  .specs-grid { grid-template-columns: 1fr; }
+  .purpose-note { padding: 18px 20px; }
+}
