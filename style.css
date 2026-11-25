@@ -955,10 +955,7 @@ code {
     padding: 0 0 28px 50px;
   }
   .timeline li:nth-child(odd) .year,
-  .timeline li:nth-child(even) .year {
-    left: 0;
-    right: auto;
-  }
+  .timeline li:nth-child(even) .year { left: 0; right: auto; }
   .logo-img-small { height: 36px; }
   .logo-img-big { height: 42px; }
   .hero-logos { gap: 14px; }
@@ -1339,7 +1336,7 @@ code {
   line-height: 1.7;
 }
 
-/* ---------- Адаптив ---------- */
+/* ---------- Адаптив для секции "Назначение 3D-модели" ---------- */
 @media (max-width: 860px) {
   .purpose-grid { grid-template-columns: 1fr; }
   .specs-grid { grid-template-columns: repeat(2, 1fr); }
