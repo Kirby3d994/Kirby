@@ -6,7 +6,8 @@
 <title>KIRBY — 3D-презентация персонажа</title>
 <meta name="description" content="Сайт-презентация про Кирби: интерактивная 3D-модель, анимации и вся информация о розовом герое Nintendo." />
 <meta name="theme-color" content="#ff8fb8" />
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⭐</text></svg>" />
+<link rel="icon" type="image/webp" href="assets/kirbylogo1.webp" />
+<link rel="apple-touch-icon" href="assets/kirbylogo1.webp" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet" />
@@ -28,7 +29,9 @@
 <span class="star s4">★</span><span class="star s5">✦</span><span class="star s6">★</span>
 </div>
 <header class="header">
-<a href="#hero" class="logo">Kirby<span>★</span></a>
+<a href="#hero" class="logo" aria-label="KIRBY — на главную">
+<img src="assets/kirbylogo1.webp" alt="KIRBY" class="logo-img" />
+</a>
 <button class="burger" id="burger" aria-label="Открыть меню" aria-expanded="false" aria-controls="nav">
 <span></span><span></span><span></span>
 </button>
@@ -45,6 +48,7 @@
 <main>
 <!-- ===================== 1. HERO ===================== -->
 <section class="hero" id="hero">
+<img src="assets/kirbylogobig.webp" alt="KIRBY" class="hero-logo" />
 <h1 class="hero-title">
 <span>K</span><span>I</span><span>R</span><span>B</span><span>Y</span>
 </h1>
