@@ -352,3 +352,61 @@ const revealObserver = new IntersectionObserver(
 );
 
 revealEls.forEach((el) => revealObserver.observe(el));
+
+/* =========================================================
+5. LIGHTBOX ДЛЯ ГАЛЕРЕИ
+========================================================= */
+const lightbox = document.getElementById('lightbox');
+const lightboxImg = document.getElementById('lightbox-img');
+const lightboxCaption = document.getElementById('lightbox-caption');
+const lbClose = document.querySelector('.lightbox-close');
+const lbPrev = document.querySelector('.lightbox-prev');
+const lbNext = document.querySelector('.lightbox-next');
+const galleryItems = document.querySelectorAll('.gallery-item');
+let currentIndex = 0;
+
+function openLightbox(index) {
+currentIndex = index;
+const item = galleryItems[index];
+const img = item.querySelector('img');
+const caption = item.querySelector('figcaption');
+lightboxImg.src = img.src;
+lightboxImg.alt = img.alt;
+lightboxCaption.textContent = caption ? caption.textContent.trim() : '';
+lightbox.hidden = false;
+document.body.style.overflow = 'hidden';
+}
+
+function closeLightbox() {
+lightbox.hidden = true;
+document.body.style.overflow = '';
+}
+
+function showNext() {
+currentIndex = (currentIndex + 1) % galleryItems.length;
+openLightbox(currentIndex);
+}
+
+function showPrev() {
+currentIndex = (currentIndex - 1 + galleryItems.length) % galleryItems.length;
+openLightbox(currentIndex);
+}
+
+galleryItems.forEach((item, i) => {
+item.addEventListener('click', () => openLightbox(i));
+});
+
+lbClose.addEventListener('click', closeLightbox);
+lbNext.addEventListener('click', (e) => { e.stopPropagation(); showNext(); });
+lbPrev.addEventListener('click', (e) => { e.stopPropagation(); showPrev(); });
+
+lightbox.addEventListener('click', (e) => {
+if (e.target === lightbox) closeLightbox();
+});
+
+document.addEventListener('keydown', (e) => {
+if (lightbox.hidden) return;
+if (e.key === 'Escape') closeLightbox();
+if (e.key === 'ArrowRight') showNext();
+if (e.key === 'ArrowLeft') showPrev();
+});
